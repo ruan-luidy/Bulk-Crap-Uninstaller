@@ -29,6 +29,9 @@ namespace UninstallTools.Controls
 
         public ImageList IconList { get; private set; }
 
+        // ImageList.Images.Keys builds a new collection on every call, and the getter runs for every painted row
+        private HashSet<string> _iconKeys = new();
+
         public object ColumnImageGetter(object rowObj)
         {
             if (rowObj is not ApplicationUninstallerEntry entry || IconList == null)
@@ -61,18 +64,19 @@ namespace UninstallTools.Controls
         /// <exception cref="PlatformNotSupportedException">The current platform is not supported.</exception>
         public void UpdateIconList(IEnumerable<ApplicationUninstallerEntry> objList)
         {
-            IconList = new ImageList();
+            var iconList = new ImageList();
+            var keys = new HashSet<string>();
             var windowsPath = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            IconList.Images.Add(ApplicationIconKey, SystemIcons.Application);
-            IconList.Images.Add(InvalidIconKey, SystemIcons.Exclamation);
-            IconList.Images.Add(WindowsIconKey, SystemIcons.Shield); //SystemIcons.WinLogo); winlogo not working on xp?
-            IconList.Images.Add(UpdateIconKey, SystemIcons.Shield);
+            AddIcon(ApplicationIconKey, SystemIcons.Application);
+            AddIcon(InvalidIconKey, SystemIcons.Exclamation);
+            AddIcon(WindowsIconKey, SystemIcons.Shield); //SystemIcons.WinLogo); winlogo not working on xp?
+            AddIcon(UpdateIconKey, SystemIcons.Shield);
             var msiIcon = UninstallToolsGlobalConfig.TryExtractAssociatedIcon(windowsPath + @"\msiexec.exe");
-            IconList.Images.Add(MsiexecIconKey, msiIcon ?? SystemIcons.Application);
+            AddIcon(MsiexecIconKey, msiIcon ?? SystemIcons.Application);
 
             foreach (var obj in objList)
             {
-                if (IconListContainsKey(obj.DisplayName))
+                if (string.IsNullOrEmpty(obj.DisplayName) || keys.Contains(obj.DisplayName))
                     continue;
 
                 try
@@ -80,13 +84,23 @@ namespace UninstallTools.Controls
                     var image = obj.GetIcon();
                     if (image != null)
                     {
-                        IconList.Images.Add(obj.DisplayName, image);
+                        AddIcon(obj.DisplayName, image);
                     }
                 }
                 catch
                 {
                     // Revert to default icon
                 }
+            }
+
+            // Publish both together so the getter never sees a half-filled list
+            _iconKeys = keys;
+            IconList = iconList;
+
+            void AddIcon(string key, Icon icon)
+            {
+                iconList.Images.Add(key, icon);
+                keys.Add(key);
             }
         }
 
@@ -107,7 +121,7 @@ namespace UninstallTools.Controls
             if (IconList == null)
                 throw new InvalidOperationException("IconListContainsKey called when IconList is null");
 
-            return IconList.Images.Keys.Cast<string>().Any(x => x.Equals(key));
+            return _iconKeys.Contains(key);
         }
     }
 }
