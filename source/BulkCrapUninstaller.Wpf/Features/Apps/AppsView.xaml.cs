@@ -12,6 +12,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using BulkCrapUninstaller.Forms;
 using BulkCrapUninstaller.Properties;
+using BulkCrapUninstaller.Wpf.Services;
+using BulkCrapUninstaller.Wpf.Shared;
 
 namespace BulkCrapUninstaller.Wpf.Features.Apps
 {
@@ -22,6 +24,7 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
 
         private AppsViewModel _viewModel;
         private ContextMenu _rowMenu;
+        private readonly (string Key, DataGridColumn Column, string Header)[] _columns;
 
         public AppsView()
         {
@@ -29,6 +32,20 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
             DataContextChanged += (_, _) => Attach(DataContext as AppsViewModel);
             SizeChanged += (_, e) => DetailsColumn.Width = new GridLength(e.NewSize.Width < DetailsBelow ? 0 : 340);
             UpdateCheckColumn();
+
+            // Everything but the name can be switched off from the header menu
+            _columns = new (string, DataGridColumn, string)[]
+            {
+                ("Publisher", ColPublisher, "Column_Publisher"), ("Version", ColVersion, "Column_Version"),
+                ("Size", ColSize, "Column_Size"), ("Installed", ColInstalled, "Column_Installed"), ("Type", ColType, "Column_Type"),
+                ("Architecture", ColArch, "Column_Arch"), ("Startup", ColStartup, "Column_Startup"),
+                ("Certificate", ColCertificate, "Column_Certificate"), ("Location", ColLocation, "Column_Location"),
+                ("UninstallString", ColUninstall, "Column_UninstallString"), ("QuietString", ColQuiet, "Column_QuietString"),
+                ("Registry", ColRegistry, "Column_Registry"), ("Website", ColWebsite, "Column_Website"),
+                ("Guid", ColGuid, "Column_Guid"), ("Note", ColNote, "Column_Note"),
+            };
+            ApplyColumns();
+            List.PreviewMouseRightButtonUp += OnHeaderRightClick;
 
             List.MouseDoubleClick += OnRowDoubleClick;
             List.PreviewKeyDown += OnListKeyDown;
@@ -74,6 +91,53 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
             _rowMenu.DataContext = viewModel;
             _rowMenu.Opened += (_, _) => FillDynamicMenus();
             List.ContextMenu = _rowMenu;
+        }
+
+        private void ApplyColumns()
+        {
+            var visible = ShellPrefs.Current.Columns;
+            foreach (var (key, column, _) in _columns)
+                column.Visibility = visible.Contains(key) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void OnHeaderRightClick(object sender, MouseButtonEventArgs e)
+        {
+            if (FindAncestor<DataGridColumnHeader>((DependencyObject)e.OriginalSource) == null)
+                return;
+
+            var menu = new ContextMenu { PlacementTarget = List, Placement = PlacementMode.MousePoint };
+            menu.Items.Add(new MenuItem { Header = Tr.Get("Column_Menu"), IsEnabled = false });
+            foreach (var (key, column, header) in _columns)
+            {
+                var item = new MenuItem
+                {
+                    Header = Capitalize(Tr.Get(header)),
+                    IsCheckable = true,
+                    IsChecked = column.Visibility == Visibility.Visible,
+                    StaysOpenOnClick = true
+                };
+                item.Click += (_, _) =>
+                {
+                    ShellPrefs.Current.SetColumn(key, item.IsChecked);
+                    ApplyColumns();
+                };
+                menu.Items.Add(item);
+            }
+
+            menu.IsOpen = true;
+            e.Handled = true;
+        }
+
+        private static string Capitalize(string header) =>
+            string.IsNullOrEmpty(header) ? header : header[0] + header[1..].ToLower(System.Globalization.CultureInfo.CurrentCulture);
+
+        private static T FindAncestor<T>(DependencyObject element) where T : DependencyObject
+        {
+            while (element != null && element is not T)
+                element = element is System.Windows.Media.Visual or System.Windows.Media.Media3D.Visual3D
+                    ? System.Windows.Media.VisualTreeHelper.GetParent(element)
+                    : LogicalTreeHelper.GetParent(element);
+            return element as T;
         }
 
         private void UpdateCheckColumn() =>

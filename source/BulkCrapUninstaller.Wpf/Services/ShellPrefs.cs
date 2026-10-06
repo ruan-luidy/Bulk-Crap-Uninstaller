@@ -4,7 +4,9 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -14,13 +16,13 @@ using HandyControl.Themes;
 
 namespace BulkCrapUninstaller.Wpf.Services
 {
-    // Theme and accent of the WPF shell. Kept next to BCUninstaller.settings so the WinForms build never sees them.
-    public sealed class ThemeService : INotifyPropertyChanged
+    // Theme, accent and list columns of the WPF shell. Kept next to BCUninstaller.settings so the WinForms build never sees them.
+    public sealed class ShellPrefs : INotifyPropertyChanged
     {
         // Before Current: static fields initialize in order and the default theme reads this
         public static readonly string[] Accents = { "#3778bf", "#2f9e8f", "#8a63d2", "#c4537a", "#d08a2e", "#5b8f3a" };
 
-        public static ThemeService Current { get; } = new();
+        public static ShellPrefs Current { get; } = new();
 
         private ShellTheme _theme = new();
 
@@ -46,6 +48,20 @@ namespace BulkCrapUninstaller.Wpf.Services
                 _theme.Accent = value;
                 Save();
             }
+        }
+
+        // Columns shown on a fresh start; the rest are a right click on the header away
+        public static readonly string[] DefaultColumns = { "Publisher", "Version", "Size", "Installed", "Type" };
+
+        // List columns that are switched on, by key
+        public IReadOnlyCollection<string> Columns => (IReadOnlyCollection<string>)_theme.Columns ?? DefaultColumns;
+
+        public void SetColumn(string key, bool visible)
+        {
+            var set = new HashSet<string>(Columns);
+            if (!(visible ? set.Add(key) : set.Remove(key))) return;
+            _theme.Columns = set.OrderBy(x => x).ToList();
+            Save();
         }
 
         public Color AccentColor =>
@@ -146,6 +162,7 @@ namespace BulkCrapUninstaller.Wpf.Services
         {
             public bool Dark { get; set; } = true;
             public string Accent { get; set; } = Accents[0];
+            public List<string> Columns { get; set; }
         }
     }
 }

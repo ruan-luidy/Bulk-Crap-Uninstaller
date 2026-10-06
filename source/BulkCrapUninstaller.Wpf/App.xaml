@@ -11,7 +11,7 @@
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <!--  ThemeService swaps theme and accent  -->
+        <!--  ShellPrefs swaps theme and accent  -->
         <hc:ThemeResources AccentColor="#3778bf" RequestedTheme="Dark" />
         <hc:Theme />
         <ResourceDictionary Source="/Shared/Themes/Styles.xaml" />

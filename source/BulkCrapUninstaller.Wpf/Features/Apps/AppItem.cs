@@ -66,6 +66,7 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
         };
 
         public bool HasStartup => Entry.HasStartups;
+        public string StartupText => Entry.HasStartups ? Tr.Get("Common_Yes") : string.Empty;
         public bool IsProtected => Entry.IsProtected;
         public bool IsSystemComponent => Entry.SystemComponent;
         public bool IsUpdate => Entry.IsUpdate;

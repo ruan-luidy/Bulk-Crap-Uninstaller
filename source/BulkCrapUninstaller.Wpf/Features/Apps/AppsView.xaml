@@ -445,6 +445,7 @@
               <DataGridTemplateColumn
                 x:Name="CheckColumn"
                 Width="36"
+                MinWidth="36"
                 CanUserResize="False"
                 CanUserSort="False">
                 <DataGridTemplateColumn.CellStyle>
@@ -500,6 +501,7 @@
               </DataGridTemplateColumn>
 
               <DataGridTextColumn
+                x:Name="ColPublisher"
                 Width="1.3*"
                 MinWidth="100"
                 Binding="{Binding Publisher}"
@@ -512,7 +514,9 @@
               </DataGridTextColumn>
 
               <DataGridTextColumn
-                Width="110"
+                x:Name="ColVersion"
+                Width="96"
+                MinWidth="96"
                 Binding="{Binding Version}"
                 FontFamily="{StaticResource Font.Mono}"
                 FontSize="{StaticResource FontSize.XS}"
@@ -525,7 +529,9 @@
               </DataGridTextColumn>
 
               <DataGridTextColumn
-                Width="92"
+                x:Name="ColSize"
+                Width="80"
+                MinWidth="80"
                 Binding="{Binding SizeText}"
                 FontFamily="{StaticResource Font.Mono}"
                 FontSize="{StaticResource FontSize.XS}"
@@ -539,17 +545,175 @@
               </DataGridTextColumn>
 
               <DataGridTextColumn
-                Width="96"
+                x:Name="ColInstalled"
+                Width="86"
+                MinWidth="86"
                 Binding="{Binding InstallDateText}"
                 FontSize="{StaticResource FontSize.XS}"
                 Header="{loc:Tr Column_Installed}"
                 SortMemberPath="InstallDate" />
 
               <DataGridTextColumn
-                Width="110"
+                x:Name="ColType"
+                Width="100"
+                MinWidth="100"
                 Binding="{Binding Kind}"
                 FontSize="{StaticResource FontSize.XS}"
                 Header="{loc:Tr Column_Type}">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+              <DataGridTextColumn
+                x:Name="ColArch"
+                Width="70"
+                MinWidth="70"
+                Binding="{Binding Architecture}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Arch}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColStartup"
+                Width="80"
+                MinWidth="80"
+                Binding="{Binding StartupText}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Startup}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColCertificate"
+                Width="120"
+                MinWidth="120"
+                Binding="{Binding Certificate}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Certificate}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColLocation"
+                Width="220"
+                MinWidth="220"
+                Binding="{Binding InstallLocation}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Location}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColUninstall"
+                Width="260"
+                MinWidth="260"
+                Binding="{Binding UninstallString}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_UninstallString}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColQuiet"
+                Width="260"
+                MinWidth="260"
+                Binding="{Binding QuietUninstallString}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_QuietString}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColRegistry"
+                Width="260"
+                MinWidth="260"
+                Binding="{Binding RegistryPath}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Registry}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColWebsite"
+                Width="180"
+                MinWidth="180"
+                Binding="{Binding AboutUrl}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Website}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColGuid"
+                Width="260"
+                MinWidth="260"
+                Binding="{Binding Guid}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Guid}"
+                Visibility="Collapsed">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                x:Name="ColNote"
+                Width="180"
+                MinWidth="180"
+                Binding="{Binding Note}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Note}"
+                Visibility="Collapsed">
                 <DataGridTextColumn.ElementStyle>
                   <Style TargetType="TextBlock">
                     <Setter Property="TextTrimming" Value="CharacterEllipsis" />

@@ -27,7 +27,7 @@
   <FontFamily x:Key="Font.Ui">Segoe UI</FontFamily>
   <FontFamily x:Key="Font.Mono">Cascadia Mono, Consolas</FontFamily>
 
-  <!--  One step below RegionBrush, behind the panels. ThemeService swaps these with the theme and accent  -->
+  <!--  One step below RegionBrush, behind the panels. ShellPrefs swaps these with the theme and accent  -->
   <SolidColorBrush x:Key="Workspace.BackgroundBrush" Color="#111113" />
   <SolidColorBrush x:Key="Hover.RowBrush" Color="#0FFFFFFF" />
   <SolidColorBrush

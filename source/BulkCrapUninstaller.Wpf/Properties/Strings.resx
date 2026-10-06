@@ -150,23 +150,59 @@
   <data name="Choice_Uninstall" xml:space="preserve">
     <value>Uninstall</value>
   </data>
+  <data name="Column_Arch" xml:space="preserve">
+    <value>ARCH</value>
+  </data>
+  <data name="Column_Certificate" xml:space="preserve">
+    <value>CERTIFICATE</value>
+  </data>
+  <data name="Column_Guid" xml:space="preserve">
+    <value>GUID</value>
+  </data>
   <data name="Column_Installed" xml:space="preserve">
     <value>INSTALLED</value>
+  </data>
+  <data name="Column_Location" xml:space="preserve">
+    <value>LOCATION</value>
+  </data>
+  <data name="Column_Menu" xml:space="preserve">
+    <value>Columns</value>
   </data>
   <data name="Column_Name" xml:space="preserve">
     <value>NAME</value>
   </data>
+  <data name="Column_Note" xml:space="preserve">
+    <value>NOTE</value>
+  </data>
   <data name="Column_Publisher" xml:space="preserve">
     <value>PUBLISHER</value>
+  </data>
+  <data name="Column_QuietString" xml:space="preserve">
+    <value>QUIET COMMAND</value>
+  </data>
+  <data name="Column_Registry" xml:space="preserve">
+    <value>REGISTRY KEY</value>
   </data>
   <data name="Column_Size" xml:space="preserve">
     <value>SIZE</value>
   </data>
+  <data name="Column_Startup" xml:space="preserve">
+    <value>STARTUP</value>
+  </data>
   <data name="Column_Type" xml:space="preserve">
     <value>TYPE</value>
   </data>
+  <data name="Column_UninstallString" xml:space="preserve">
+    <value>UNINSTALL COMMAND</value>
+  </data>
   <data name="Column_Version" xml:space="preserve">
     <value>VERSION</value>
+  </data>
+  <data name="Column_Website" xml:space="preserve">
+    <value>WEBSITE</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="Detail_Comment" xml:space="preserve">
     <value>Description</value>

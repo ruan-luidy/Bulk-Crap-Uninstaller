@@ -29,7 +29,7 @@ namespace BulkCrapUninstaller.Wpf.Features.Options
 
         public string Color { get; }
 
-        public bool IsSelected => string.Equals(ThemeService.Current.Accent, Color, StringComparison.OrdinalIgnoreCase);
+        public bool IsSelected => string.Equals(ShellPrefs.Current.Accent, Color, StringComparison.OrdinalIgnoreCase);
 
         public void Changed() => OnPropertyChanged(nameof(IsSelected));
     }
@@ -46,8 +46,8 @@ namespace BulkCrapUninstaller.Wpf.Features.Options
 
         public OptionsViewModel()
         {
-            Accents = ThemeService.Accents.Select(x => new AccentChoice(x)).ToList();
-            ThemeService.Current.PropertyChanged += (_, _) =>
+            Accents = ShellPrefs.Accents.Select(x => new AccentChoice(x)).ToList();
+            ShellPrefs.Current.PropertyChanged += (_, _) =>
             {
                 OnPropertyChanged(nameof(DarkTheme));
                 foreach (var accent in Accents) accent.Changed();
@@ -92,8 +92,8 @@ namespace BulkCrapUninstaller.Wpf.Features.Options
 
         public bool DarkTheme
         {
-            get => ThemeService.Current.Dark;
-            set => ThemeService.Current.Dark = value;
+            get => ShellPrefs.Current.Dark;
+            set => ShellPrefs.Current.Dark = value;
         }
 
         public string SourcesSummary => Tr.Format("Options_SourcesSummary",
@@ -107,7 +107,7 @@ namespace BulkCrapUninstaller.Wpf.Features.Options
         public string SettingsFolder => Path.GetDirectoryName(Program.ConfigFileFullname) ?? Program.AssemblyLocation.FullName;
 
         [RelayCommand]
-        private void PickAccent(string color) => ThemeService.Current.Accent = color;
+        private void PickAccent(string color) => ShellPrefs.Current.Accent = color;
 
         [RelayCommand]
         private static void BrowseBackupFolder()

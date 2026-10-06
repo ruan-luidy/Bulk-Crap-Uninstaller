@@ -34,12 +34,12 @@ namespace BulkCrapUninstaller.Wpf
             if (Program.EnableDebug)
                 Settings.Default.AdvancedSimulate = true;
 
-            ThemeService.Current.Load();
+            ShellPrefs.Current.Load();
             SettingsSync.Start();
             Settings.Default.PropertyChanged += (_, args) =>
             {
                 if (args.PropertyName == nameof(Settings.MiscColorblind))
-                    ThemeService.Current.ApplyStatusColors();
+                    ShellPrefs.Current.ApplyStatusColors();
             };
 
             var catalog = new AppCatalog(Dispatcher);
