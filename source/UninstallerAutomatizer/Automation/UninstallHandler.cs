@@ -104,7 +104,8 @@ namespace UninstallerAutomatizer
             IsDaemon = true;
             OnStatusUpdate(new UninstallHandlerUpdateArgs(UninstallHandlerUpdateKind.Normal, Localization.UninstallHandler_StartDaemon));
 
-            _automationThread = new Thread(DaemonThread) { Name = "AutomationThread", IsBackground = false, Priority = ThreadPriority.AboveNormal };
+            // Background so a daemon stuck in WaitForConnection doesn't keep the process alive after the window closes
+            _automationThread = new Thread(DaemonThread) { Name = "AutomationThread", IsBackground = true, Priority = ThreadPriority.AboveNormal };
             _automationThread.Start();
         }
 
@@ -118,22 +119,24 @@ namespace UninstallerAutomatizer
             try
             {
                 using (var server = new NamedPipeServerStream("UninstallAutomatizerDaemon", PipeDirection.In))
-                using (var reader = new StreamReader(server))
                 {
                     while (true)
                     {
                         server.WaitForConnection();
                         Debug.WriteLine("Client connected through pipe");
+                        // New reader per client, the old one already saw the end of the stream
+                        using var reader = new StreamReader(server, leaveOpen: true);
                         while (true)
                         {
                             var line = reader.ReadLine()?.ToLowerInvariant();
 
                             Debug.WriteLine("Received through pipe: " + (line ?? "NULL"));
 
+                            // Client went away, free the pipe for the next one
                             if (line == null)
                             {
-                                Thread.Sleep(500);
-                                continue;
+                                server.Disconnect();
+                                break;
                             }
 
                             if (line == "stop")
@@ -143,7 +146,7 @@ namespace UninstallerAutomatizer
                             if (!int.TryParse(line, out pid))
                             {
                                 OnStatusUpdate(new UninstallHandlerUpdateArgs(UninstallHandlerUpdateKind.Normal,
-                                    string.Format(Localization.UninstallHandler_InvalidProcessNumber, pid)));
+                                    string.Format(Localization.UninstallHandler_InvalidProcessNumber, line)));
                                 continue;
                             }
 
