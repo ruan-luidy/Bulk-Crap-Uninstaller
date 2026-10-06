@@ -20,6 +20,8 @@
   Icon="pack://application:,,,/BCUninstaller.Wpf;component/Assets/logo.ico"
   NonClientAreaBackground="{DynamicResource RegionBrush}"
   RenderOptions.BitmapScalingMode="HighQuality"
+  TextOptions.TextFormattingMode="Display"
+  TextOptions.TextRenderingMode="ClearType"
   UseLayoutRounding="True"
   WindowStartupLocation="CenterScreen"
   mc:Ignorable="d">
@@ -98,7 +100,6 @@
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="FontSize" Value="{StaticResource FontSize.XS}" />
       <Setter Property="Foreground" Value="{DynamicResource ThirdlyTextBrush}" />
-      <Setter Property="FontFamily" Value="{StaticResource Font.Mono}" />
       <Style.Triggers>
         <DataTrigger Binding="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" Value="True">
           <Setter Property="Visibility" Value="Collapsed" />

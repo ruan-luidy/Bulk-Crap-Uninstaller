@@ -400,7 +400,6 @@
           <DockPanel>
             <TextBlock
               DockPanel.Dock="Right"
-              FontFamily="{StaticResource Font.Mono}"
               Style="{StaticResource TextBlockCaption}"
               Text="{Binding ScanValue, StringFormat={}{0:P0}}"
               Visibility="{Binding ScanIndeterminate, Converter={StaticResource Boolean2VisibilityReConverter}}" />
@@ -449,7 +448,7 @@
                 CanUserResize="False"
                 CanUserSort="False">
                 <DataGridTemplateColumn.CellStyle>
-                  <Style BasedOn="{StaticResource AppCell}" TargetType="DataGridCell">
+                  <Style BasedOn="{StaticResource DataGridCellStyle}" TargetType="DataGridCell">
                     <Setter Property="Padding" Value="0" />
                   </Style>
                 </DataGridTemplateColumn.CellStyle>
@@ -477,11 +476,12 @@
                         Style="{StaticResource StatusMark}"
                         ToolTip="{Binding StatusText}" />
                       <Image
-                        Width="20"
-                        Height="20"
-                        Margin="0,0,10,0"
+                        Width="16"
+                        Height="16"
+                        Margin="2,0,12,0"
                         DockPanel.Dock="Left"
-                        Source="{Binding Icon}" />
+                        Source="{Binding SmallIcon}"
+                        Stretch="None" />
                       <Path
                         Margin="6,0,0,0"
                         Data="{icons:Phosphor NoteBold}"
@@ -518,7 +518,6 @@
                 Width="96"
                 MinWidth="96"
                 Binding="{Binding Version}"
-                FontFamily="{StaticResource Font.Mono}"
                 FontSize="{StaticResource FontSize.XS}"
                 Header="{loc:Tr Column_Version}">
                 <DataGridTextColumn.ElementStyle>
@@ -530,10 +529,9 @@
 
               <DataGridTextColumn
                 x:Name="ColSize"
-                Width="80"
-                MinWidth="80"
+                Width="92"
+                MinWidth="92"
                 Binding="{Binding SizeText}"
-                FontFamily="{StaticResource Font.Mono}"
                 FontSize="{StaticResource FontSize.XS}"
                 Header="{loc:Tr Column_Size}"
                 SortMemberPath="SizeKb">
@@ -555,8 +553,8 @@
 
               <DataGridTextColumn
                 x:Name="ColType"
-                Width="100"
-                MinWidth="100"
+                Width="94"
+                MinWidth="94"
                 Binding="{Binding Kind}"
                 FontSize="{StaticResource FontSize.XS}"
                 Header="{loc:Tr Column_Type}">
@@ -695,7 +693,6 @@
                 Width="260"
                 MinWidth="260"
                 Binding="{Binding Guid}"
-                FontFamily="{StaticResource Font.Mono}"
                 FontSize="{StaticResource FontSize.XS}"
                 Header="{loc:Tr Column_Guid}"
                 Visibility="Collapsed">
@@ -814,9 +811,10 @@
                     Background="{DynamicResource SecondaryRegionBrush}"
                     CornerRadius="{StaticResource Radius.Lg}">
                     <Image
-                      Width="28"
-                      Height="28"
-                      Source="{Binding Icon}" />
+                      Width="32"
+                      Height="32"
+                      Source="{Binding Icon}"
+                      Stretch="None" />
                   </Border>
                   <StackPanel VerticalAlignment="Center">
                     <TextBlock
@@ -1035,14 +1033,14 @@
                       <TextBlock
                         Margin="8,0,0,0"
                         DockPanel.Dock="Right"
-                        FontFamily="{StaticResource Font.Mono}"
                         Style="{StaticResource TextBlockCaption}"
                         Text="{Binding SizeText}" />
                       <Image
                         Width="16"
                         Height="16"
                         Margin="0,0,8,0"
-                        Source="{Binding Icon}" />
+                        Source="{Binding SmallIcon}"
+                        Stretch="None" />
                       <TextBlock
                         VerticalAlignment="Center"
                         FontSize="{StaticResource FontSize.Sm}"

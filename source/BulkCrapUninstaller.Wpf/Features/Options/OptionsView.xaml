@@ -156,7 +156,6 @@
         <controls:OptionPanel Header="{loc:Tr Options_Detection}" Icon="{icons:Phosphor MagnifyingGlassBold}">
           <controls:OptionPanel.Aside>
             <TextBlock
-              FontFamily="{StaticResource Font.Mono}"
               FontSize="{StaticResource FontSize.XS}"
               Foreground="{DynamicResource ThirdlyTextBrush}"
               Text="{Binding SourcesSummary}" />

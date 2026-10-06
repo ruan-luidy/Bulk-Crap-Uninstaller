@@ -794,6 +794,7 @@
   <!--  Context menus grow from 96% instead of popping  -->
   <Style BasedOn="{StaticResource ContextMenuBaseStyle}" TargetType="ContextMenu">
     <Setter Property="FontFamily" Value="{StaticResource Font.Ui}" />
+    <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
     <Setter Property="RenderTransformOrigin" Value="0.5,0" />
     <Setter Property="Opacity" Value="0" />
     <Setter Property="RenderTransform">
@@ -834,6 +835,7 @@
   <!--  Tooltip: small card, without the Windows shadow  -->
   <Style TargetType="ToolTip">
     <Setter Property="FontFamily" Value="{StaticResource Font.Ui}" />
+    <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
     <Setter Property="FontSize" Value="{StaticResource FontSize.Sm}" />
     <Setter Property="Padding" Value="8,5" />

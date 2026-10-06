@@ -133,18 +133,27 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
             Task.Run(() =>
             {
                 var fallback = new FallbackIcons();
-                var byName = new Dictionary<string, ImageSource>();
+                var byName = new Dictionary<string, IconPair>();
                 foreach (var item in items)
                 {
                     if (token.IsCancellationRequested) return;
 
-                    var icon = GetIcon(item.Entry, byName) ?? fallback.For(item.Entry);
-                    _dispatcher.BeginInvoke(() => item.Icon = icon, DispatcherPriority.Background);
+                    var pair = GetIcon(item.Entry, byName) ?? fallback.For(item.Entry);
+                    _dispatcher.BeginInvoke(() => item.SetIcons(pair.Small, pair.Large), DispatcherPriority.Background);
                 }
             }, token);
         }
 
-        private static ImageSource GetIcon(ApplicationUninstallerEntry entry, Dictionary<string, ImageSource> byName)
+        internal sealed record IconPair(ImageSource Small, ImageSource Large)
+        {
+            public static IconPair From(Icon icon)
+            {
+                var large = ToImageSource(icon, 32);
+                return large == null ? null : new IconPair(ToImageSource(icon, 16) ?? large, large);
+            }
+        }
+
+        private static IconPair GetIcon(ApplicationUninstallerEntry entry, Dictionary<string, IconPair> byName)
         {
             if (!string.IsNullOrEmpty(entry.DisplayName) && byName.TryGetValue(entry.DisplayName, out var known))
                 return known;
@@ -152,10 +161,10 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
             try
             {
                 var icon = entry.GetIcon();
-                var source = icon == null ? null : ToImageSource(icon);
-                if (source != null && !string.IsNullOrEmpty(entry.DisplayName))
-                    byName[entry.DisplayName] = source;
-                return source;
+                var pair = icon == null ? null : IconPair.From(icon);
+                if (pair != null && !string.IsNullOrEmpty(entry.DisplayName))
+                    byName[entry.DisplayName] = pair;
+                return pair;
             }
             catch
             {
@@ -163,13 +172,13 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
             }
         }
 
-        internal static ImageSource ToImageSource(Icon icon)
+        // Picks the frame closest to the size and, if the icon has no such frame, scales it once here instead of on every render
+        internal static ImageSource ToImageSource(Icon icon, int size)
         {
             try
             {
-                // The 32px frame looks right at 20px on high DPI too
-                using var sized = new Icon(icon, 32, 32);
-                var source = Imaging.CreateBitmapSourceFromHIcon(sized.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                using var sized = new Icon(icon, size, size);
+                var source = Imaging.CreateBitmapSourceFromHIcon(sized.Handle, Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(size, size));
                 source.Freeze();
                 return source;
             }
@@ -182,19 +191,19 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
         // Same fallbacks as UninstallerIconGetter
         private sealed class FallbackIcons
         {
-            private readonly ImageSource _app = ToImageSource(SystemIcons.Application);
-            private readonly ImageSource _invalid = ToImageSource(SystemIcons.Exclamation);
-            private readonly ImageSource _shield = ToImageSource(SystemIcons.Shield);
-            private readonly ImageSource _msi;
+            private readonly IconPair _app = IconPair.From(SystemIcons.Application);
+            private readonly IconPair _invalid = IconPair.From(SystemIcons.Exclamation);
+            private readonly IconPair _shield = IconPair.From(SystemIcons.Shield);
+            private readonly IconPair _msi;
 
             public FallbackIcons()
             {
                 var msiexec = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "msiexec.exe");
                 var msiIcon = File.Exists(msiexec) ? Klocman.Tools.DrawingTools.ExtractAssociatedIcon(msiexec) : null;
-                _msi = msiIcon != null ? ToImageSource(msiIcon) : _app;
+                _msi = msiIcon != null ? IconPair.From(msiIcon) ?? _app : _app;
             }
 
-            public ImageSource For(ApplicationUninstallerEntry entry)
+            public IconPair For(ApplicationUninstallerEntry entry)
             {
                 if (entry.ParentKeyName == "OperatingSystem" || entry.IsUpdate || entry.UninstallerKind == UninstallerType.WindowsFeature)
                     return _shield;

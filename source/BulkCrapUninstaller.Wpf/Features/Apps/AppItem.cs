@@ -33,6 +33,7 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
     public sealed class AppItem : INotifyPropertyChanged
     {
         private ImageSource _icon;
+        private ImageSource _smallIcon;
 
         public AppItem(ApplicationUninstallerEntry entry)
         {
@@ -87,14 +88,16 @@ namespace BulkCrapUninstaller.Wpf.Features.Apps
             ? string.Join(", ", arr)
             : ApplicationListConstants.GetApplicationIntegrityText(Entry)?.ToString();
 
-        public ImageSource Icon
+        // 32 px for the details pane, 16 px for the rows; each made at its own size so neither gets rescaled
+        public ImageSource Icon => _icon;
+        public ImageSource SmallIcon => _smallIcon;
+
+        public void SetIcons(ImageSource small, ImageSource large)
         {
-            get => _icon;
-            set
-            {
-                _icon = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
-            }
+            _smallIcon = small;
+            _icon = large;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SmallIcon)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
         }
 
         // Same priority as ApplicationListConstants.GetApplicationBackColor
