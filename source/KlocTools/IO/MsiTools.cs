@@ -214,7 +214,9 @@ namespace Klocman.IO
                 _reverseComponentLookup = _componentLookup
                                           .Where(x => !string.IsNullOrEmpty(x.Key))
                                           .SelectMany(x => x.Select(y => new { product = x.Key, component = y, }))
-                                          .ToDictionary(x => x.component, x => x.product);
+                                          // Shared components belong to more than one product, any of them can resolve the path
+                                          .GroupBy(x => x.component, StringComparer.OrdinalIgnoreCase)
+                                          .ToDictionary(x => x.Key, x => x.First().product, StringComparer.OrdinalIgnoreCase);
 
                 Trace.WriteLine($"[Performance] Built MSI component lookup in {sw.Elapsed.TotalSeconds:F2} seconds");
             }
