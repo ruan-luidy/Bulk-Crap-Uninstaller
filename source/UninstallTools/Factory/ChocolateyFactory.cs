@@ -66,17 +66,16 @@ namespace UninstallTools.Factory
             if (string.IsNullOrEmpty(result)) return results;
 
             var re = new System.Text.RegularExpressions.Regex(@"\n\w.+\r\n Title:");
-            var match = re.Match(result);
-            if (!match.Success) return results;
-            var begin = match.Index + 1;
+            var starts = re.Matches(result).Select(x => x.Index + 1).ToList();
 
-            while (true)
+            for (var index = 0; index < starts.Count; index++)
             {
-                match = match.NextMatch();
-                if (!match.Success) break;
-                var end = match.Index + 1;
+                // The last package runs until the end of the output
+                var begin = starts[index];
+                var end = index + 1 < starts.Count ? starts[index + 1] : result.Length;
                 var info = result.Substring(begin, end - begin);
                 int i = info.IndexOf(' '), j = info.IndexOf("\r\n", StringComparison.Ordinal);
+                if (i <= 0 || j <= i) continue;
                 var appName = new { name = info.Substring(0, i), version = info.Substring(i + 1, j - i - 1) };
 
                 var kvps = ExtractPackageInformation(info);
@@ -121,7 +120,6 @@ namespace UninstallTools.Factory
                 entry.AdditionalJunk.Add(junk);
 
                 results.Add(entry);
-                begin = end;
             }
 
             return results;
@@ -170,7 +168,8 @@ namespace UninstallTools.Factory
                 var val = line.Substring(i + 2);
                 if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(val)) continue;
 
-                kvps.Add(key, val);
+                // Descriptions can repeat a key, keep the first one
+                kvps.TryAdd(key, val);
             }
 
             return kvps;
