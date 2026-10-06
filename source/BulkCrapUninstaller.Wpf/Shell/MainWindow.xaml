@@ -1,0 +1,402 @@
+<hc:Window
+  x:Class="BulkCrapUninstaller.Wpf.Shell.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:apps="clr-namespace:BulkCrapUninstaller.Wpf.Features.Apps"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:hc="https://handyorg.github.io/handycontrol"
+  xmlns:icons="clr-namespace:BulkCrapUninstaller.Wpf.Shared.Icons"
+  xmlns:loc="clr-namespace:BulkCrapUninstaller.Wpf.Shared"
+  xmlns:local="clr-namespace:BulkCrapUninstaller.Wpf.Shell"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  x:Name="Root"
+  Title="{Binding Title}"
+  Width="1320"
+  Height="820"
+  MinWidth="760"
+  MinHeight="520"
+  d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+  Background="{DynamicResource Workspace.BackgroundBrush}"
+  Icon="pack://application:,,,/BCUninstaller.Wpf;component/Assets/logo.ico"
+  NonClientAreaBackground="{DynamicResource RegionBrush}"
+  RenderOptions.BitmapScalingMode="HighQuality"
+  UseLayoutRounding="True"
+  WindowStartupLocation="CenterScreen"
+  mc:Ignorable="d">
+
+  <hc:Window.Resources>
+    <!--  Gone in the icon rail  -->
+    <Style x:Key="NavLabel" TargetType="TextBlock">
+      <Setter Property="Margin" Value="12,0,0,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" Value="True">
+          <Setter Property="Visibility" Value="Collapsed" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <Style x:Key="WideOnly" TargetType="FrameworkElement">
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" Value="True">
+          <Setter Property="Visibility" Value="Collapsed" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <Style
+      x:Key="NavGroup"
+      BasedOn="{StaticResource SectionHeaderStyle}"
+      TargetType="TextBlock">
+      <Setter Property="Margin" Value="20,16,0,6" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" Value="True">
+          <Setter Property="Visibility" Value="Collapsed" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <!--  In the rail a thin line stands in for the group header  -->
+    <Style x:Key="RailDivider" TargetType="Border">
+      <Setter Property="Height" Value="1" />
+      <Setter Property="Margin" Value="14,10" />
+      <Setter Property="Background" Value="{DynamicResource BorderBrush}" />
+      <Setter Property="Visibility" Value="Collapsed" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" Value="True">
+          <Setter Property="Visibility" Value="Visible" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <Style
+      x:Key="NavItem"
+      BasedOn="{StaticResource NavItemStyle}"
+      TargetType="RadioButton">
+      <Setter Property="GroupName" Value="MainNav" />
+      <Setter Property="ToolTipService.IsEnabled" Value="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" />
+      <Setter Property="ToolTipService.Placement" Value="Right" />
+    </Style>
+
+    <!--  Sidebar row that runs a command (quick view, tool)  -->
+    <Style
+      x:Key="SideRow"
+      BasedOn="{StaticResource RowButton}"
+      TargetType="ButtonBase">
+      <Setter Property="Margin" Value="8,1" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="ToolTipService.Placement" Value="Right" />
+      <Setter Property="ToolTipService.InitialShowDelay" Value="500" />
+    </Style>
+
+    <Style
+      x:Key="NavCount"
+      BasedOn="{StaticResource TextBlockCaption}"
+      TargetType="TextBlock">
+      <Setter Property="Margin" Value="8,0,0,0" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="FontSize" Value="{StaticResource FontSize.XS}" />
+      <Setter Property="Foreground" Value="{DynamicResource ThirdlyTextBrush}" />
+      <Setter Property="FontFamily" Value="{StaticResource Font.Mono}" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=(local:MainWindow.IsCompact), RelativeSource={RelativeSource Self}}" Value="True">
+          <Setter Property="Visibility" Value="Collapsed" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource MenuItemBaseStyle}" TargetType="MenuItem">
+      <Setter Property="FontSize" Value="{StaticResource FontSize.Sm}" />
+    </Style>
+  </hc:Window.Resources>
+
+  <!--  ===== TITLE BAR: the old File / Tools / Help menus  =====  -->
+  <hc:Window.NonClientAreaContent>
+    <DockPanel Height="29" LastChildFill="False">
+      <Button
+        x:Name="MenuButton"
+        Width="40"
+        Height="29"
+        Click="OnMenuButtonClick"
+        DockPanel.Dock="Right"
+        Style="{StaticResource IconButton}"
+        ToolTip="{loc:Tr Menu_More}">
+        <Path Data="{icons:Phosphor DotsThreeOutlineFill}" Style="{StaticResource Icon}" />
+        <Button.ContextMenu>
+          <ContextMenu Placement="Bottom">
+            <MenuItem Header="{loc:Tr Menu_Tools}">
+              <MenuItem.Icon>
+                <Path Data="{icons:Phosphor WrenchBold}" Style="{StaticResource Icon.Small}" />
+              </MenuItem.Icon>
+              <MenuItem Command="{Binding ProgramsAndFeaturesCommand}" Header="{loc:Tr Menu_ProgramsAndFeatures}" />
+              <MenuItem Command="{Binding SystemRestoreCommand}" Header="{loc:Tr Menu_SystemRestore}" />
+              <MenuItem Command="{Binding DiskCleanupCommand}" Header="{loc:Tr Menu_DiskCleanup}" />
+              <MenuItem Command="{Binding InstallNet35Command}" Header="{loc:Tr Menu_InstallNet35}" />
+              <MenuItem Command="{Binding TroubleshooterCommand}" Header="{loc:Tr Menu_Troubleshooter}" />
+              <Separator />
+              <MenuItem Command="{Binding SetupWizardCommand}" Header="{loc:Tr Menu_SetupWizard}" />
+            </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding OpenHelpCommand}" Header="{loc:Tr Menu_Help}" InputGestureText="F1">
+              <MenuItem.Icon>
+                <Path Data="{icons:Phosphor QuestionBold}" Style="{StaticResource Icon.Small}" />
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding CheckForUpdatesCommand}" Header="{loc:Tr Menu_CheckUpdates}">
+              <MenuItem.Icon>
+                <Path Data="{icons:Phosphor ArrowCircleUpBold}" Style="{StaticResource Icon.Small}" />
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding FeedbackCommand}" Header="{loc:Tr Menu_Feedback}">
+              <MenuItem.Icon>
+                <Path Data="{icons:Phosphor ChatCircleTextBold}" Style="{StaticResource Icon.Small}" />
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding DonateCommand}" Header="{loc:Tr Menu_Donate}">
+              <MenuItem.Icon>
+                <Path Data="{icons:Phosphor HeartBold}" Style="{StaticResource Icon.Small}" />
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding AboutCommand}" Header="{loc:Tr Menu_About}">
+              <MenuItem.Icon>
+                <Path Data="{icons:Phosphor InfoBold}" Style="{StaticResource Icon.Small}" />
+              </MenuItem.Icon>
+            </MenuItem>
+            <Separator Visibility="{Binding IsInstalled, Converter={StaticResource Boolean2VisibilityConverter}}" />
+            <MenuItem
+              Command="{Binding UninstallBcuCommand}"
+              Header="{loc:Tr Menu_UninstallBcu}"
+              Visibility="{Binding IsInstalled, Converter={StaticResource Boolean2VisibilityConverter}}" />
+          </ContextMenu>
+        </Button.ContextMenu>
+      </Button>
+    </DockPanel>
+  </hc:Window.NonClientAreaContent>
+
+  <Grid>
+    <Grid x:Name="Body">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <!--  ===== SIDEBAR =====  -->
+      <Border
+        x:Name="Sidebar"
+        Width="236"
+        Background="{DynamicResource RegionBrush}"
+        BorderBrush="{DynamicResource BorderBrush}"
+        BorderThickness="0,1,1,0">
+        <DockPanel>
+          <!--  Mark  -->
+          <StackPanel
+            Margin="14,16,12,8"
+            DockPanel.Dock="Top"
+            Orientation="Horizontal">
+            <Border Padding="4" Style="{StaticResource IconBadge}">
+              <Image Source="pack://application:,,,/BCUninstaller.Wpf;component/Assets/logo.ico" />
+            </Border>
+            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+              <TextBlock
+                Margin="0"
+                FontSize="{StaticResource FontSize.Md}"
+                FontWeight="SemiBold"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Style="{StaticResource NavLabel}"
+                Text="Bulk Crap Uninstaller" />
+              <TextBlock
+                Margin="0"
+                FontSize="{StaticResource FontSize.XS}"
+                Foreground="{DynamicResource ThirdlyTextBrush}"
+                Style="{StaticResource NavLabel}"
+                Text="{Binding VersionText}" />
+            </StackPanel>
+          </StackPanel>
+
+          <!--  Bottom: settings and what is in the library  -->
+          <StackPanel DockPanel.Dock="Bottom">
+            <Border Style="{StaticResource RailDivider}" />
+            <RadioButton
+              Margin="8,6,8,1"
+              Command="{Binding ShowOptionsCommand}"
+              IsChecked="{Binding Page, Mode=OneWay, Converter={x:Static local:PageIs.Instance}, ConverterParameter=Options}"
+              Style="{StaticResource NavItem}"
+              ToolTip="{loc:Tr Nav_Settings}">
+              <StackPanel Orientation="Horizontal">
+                <Path Data="{icons:Phosphor GearSixBold}" Style="{StaticResource Icon}" />
+                <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Nav_Settings}" />
+              </StackPanel>
+            </RadioButton>
+
+            <Border
+              x:Name="LibraryCard"
+              Margin="12,8,12,12"
+              Padding="12,10"
+              Style="{StaticResource Card}">
+              <StackPanel>
+                <TextBlock Style="{StaticResource SectionHeaderStyle}" Text="{loc:Tr Library_Header}" />
+                <DockPanel Margin="0,8,0,0">
+                  <Ellipse
+                    x:Name="LibraryDot"
+                    Width="8"
+                    Height="8"
+                    Margin="0,0,8,0"
+                    Fill="{DynamicResource SuccessBrush}" />
+                  <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="{StaticResource FontSize.Sm}"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="{Binding LibrarySummary}"
+                    TextTrimming="CharacterEllipsis" />
+                </DockPanel>
+                <ProgressBar
+                  Height="3"
+                  Margin="0,8,0,0"
+                  IsIndeterminate="{Binding Apps.ScanIndeterminate}"
+                  Maximum="1"
+                  Style="{StaticResource ProgressBarFlat}"
+                  Visibility="{Binding Apps.IsScanning, Converter={StaticResource Boolean2VisibilityConverter}}"
+                  Value="{Binding Apps.ScanValue}" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+
+          <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+              <TextBlock Style="{StaticResource NavGroup}" Text="{loc:Tr Nav_Library}" />
+              <RadioButton
+                Command="{Binding ShowAppsCommand}"
+                IsChecked="{Binding Page, Mode=OneWay, Converter={x:Static local:PageIs.Instance}, ConverterParameter=Apps}"
+                Style="{StaticResource NavItem}"
+                ToolTip="{loc:Tr Nav_Apps}">
+                <DockPanel>
+                  <TextBlock
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource NavCount}"
+                    Text="{Binding Apps.Items.Count}" />
+                  <Path Data="{icons:Phosphor SquaresFourBold}" Style="{StaticResource Icon}" />
+                  <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Nav_Apps}" />
+                </DockPanel>
+              </RadioButton>
+
+              <TextBlock Style="{StaticResource NavGroup}" Text="{loc:Tr Nav_Views}" />
+              <Border Style="{StaticResource RailDivider}" />
+              <ItemsControl Focusable="False" ItemsSource="{Binding Apps.Filters}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="{x:Type apps:QuickView}">
+                    <ToggleButton
+                      x:Name="Row"
+                      Command="{Binding DataContext.ShowViewCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                      CommandParameter="{Binding}"
+                      IsChecked="{Binding IsActive, Mode=OneWay}"
+                      Style="{StaticResource SideRow}"
+                      ToolTip="{Binding Description}">
+                      <DockPanel>
+                        <TextBlock
+                          DockPanel.Dock="Right"
+                          Style="{StaticResource NavCount}"
+                          Text="{Binding Count}" />
+                        <Path Data="{Binding Icon}" Style="{StaticResource Icon}" />
+                        <TextBlock Style="{StaticResource NavLabel}" Text="{Binding Name}" />
+                      </DockPanel>
+                    </ToggleButton>
+                    <!--  Nothing to show, unless it is the active one  -->
+                    <DataTemplate.Triggers>
+                      <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                          <Condition Binding="{Binding Count}" Value="0" />
+                          <Condition Binding="{Binding IsActive}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="Row" Property="Visibility" Value="Collapsed" />
+                      </MultiDataTrigger>
+                    </DataTemplate.Triggers>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+
+              <TextBlock Style="{StaticResource NavGroup}" Text="{loc:Tr Nav_Tools}" />
+              <Border Style="{StaticResource RailDivider}" />
+              <Button
+                Command="{Binding StartupManagerCommand}"
+                Style="{StaticResource SideRow}"
+                ToolTip="{loc:Tr Tool_Startup_Hint}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor RocketLaunchBold}" Style="{StaticResource Icon}" />
+                  <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Tool_Startup}" />
+                </StackPanel>
+              </Button>
+              <Button
+                Command="{Binding UninstallFromDirectoryCommand}"
+                Style="{StaticResource SideRow}"
+                ToolTip="{loc:Tr Tool_FromFolder_Hint}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor FolderMinusBold}" Style="{StaticResource Icon}" />
+                  <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Tool_FromFolder}" />
+                </StackPanel>
+              </Button>
+              <Button
+                Command="{Binding UninstallFromWindowCommand}"
+                Style="{StaticResource SideRow}"
+                ToolTip="{loc:Tr Tool_Target_Hint}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor CrosshairBold}" Style="{StaticResource Icon}" />
+                  <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Tool_Target}" />
+                </StackPanel>
+              </Button>
+              <Button
+                Command="{Binding CleanProgramFilesCommand}"
+                Style="{StaticResource SideRow}"
+                ToolTip="{loc:Tr Tool_Clean_Hint}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor BroomBold}" Style="{StaticResource Icon}" />
+                  <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Tool_Clean}" />
+                </StackPanel>
+              </Button>
+              <Button
+                Command="{Binding CreateRestorePointCommand}"
+                Style="{StaticResource SideRow}"
+                ToolTip="{loc:Tr Tool_Restore_Hint}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor ClockCounterClockwiseBold}" Style="{StaticResource Icon}" />
+                  <TextBlock Style="{StaticResource NavLabel}" Text="{loc:Tr Tool_Restore}" />
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </ScrollViewer>
+        </DockPanel>
+      </Border>
+
+      <!--  ===== PAGE =====  -->
+      <ContentControl
+        Grid.Column="1"
+        Margin="24,16,24,0"
+        Content="{Binding Current}"
+        Focusable="False" />
+    </Grid>
+
+    <!--  The uninstaller has the app locked: dim everything and say so  -->
+    <Grid
+      x:Name="LockLayer"
+      Background="#66000000"
+      Visibility="{Binding IsLocked, Converter={StaticResource Boolean2VisibilityConverter}}">
+      <Border
+        Padding="20,14"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Style="{StaticResource Card}">
+        <StackPanel Orientation="Horizontal">
+          <hc:LoadingCircle
+            Width="22"
+            Height="22"
+            DotDiameter="3" />
+          <TextBlock
+            Margin="12,0,0,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}"
+            Text="{loc:Tr Locked_Working}" />
+        </StackPanel>
+      </Border>
+    </Grid>
+  </Grid>
+</hc:Window>

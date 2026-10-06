@@ -1,0 +1,936 @@
+<UserControl
+  x:Class="BulkCrapUninstaller.Wpf.Features.Apps.AppsView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:hc="https://handyorg.github.io/handycontrol"
+  xmlns:icons="clr-namespace:BulkCrapUninstaller.Wpf.Shared.Icons"
+  xmlns:loc="clr-namespace:BulkCrapUninstaller.Wpf.Shared"
+  xmlns:local="clr-namespace:BulkCrapUninstaller.Wpf.Features.Apps"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  x:Name="Root"
+  d:DataContext="{d:DesignInstance Type=local:AppsViewModel}"
+  d:DesignHeight="800"
+  d:DesignWidth="1100"
+  mc:Ignorable="d">
+
+  <UserControl.Resources>
+    <Style BasedOn="{StaticResource MenuItemBaseStyle}" TargetType="MenuItem">
+      <Setter Property="FontSize" Value="{StaticResource FontSize.Sm}" />
+    </Style>
+
+    <!--  Row menu: what the WinForms list context menu had  -->
+    <ContextMenu x:Key="RowMenu">
+      <MenuItem
+        Command="{Binding UninstallCommand}"
+        Header="{loc:Tr Action_Uninstall}"
+        InputGestureText="Del">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor TrashBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem
+        Command="{Binding QuietUninstallCommand}"
+        Header="{loc:Tr Action_QuietUninstall}"
+        InputGestureText="Shift+Del">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor SpeakerSlashBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem
+        Command="{Binding ManualUninstallCommand}"
+        Header="{loc:Tr Action_ManualUninstall}"
+        InputGestureText="Ctrl+Shift+Del">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor HandBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Command="{Binding ModifyCommand}" Header="{loc:Tr Action_Modify}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor SlidersHorizontalBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="{loc:Tr Action_Msi}">
+        <MenuItem
+          Command="{Binding UninstallUsingMsiCommand}"
+          CommandParameter="Uninstall"
+          Header="{loc:Tr Action_MsiUninstall}" />
+        <MenuItem
+          Command="{Binding UninstallUsingMsiCommand}"
+          CommandParameter="QuietUninstall"
+          Header="{loc:Tr Action_MsiQuiet}" />
+        <MenuItem
+          Command="{Binding UninstallUsingMsiCommand}"
+          CommandParameter="InstallModify"
+          Header="{loc:Tr Action_MsiModify}" />
+      </MenuItem>
+      <Separator />
+      <MenuItem x:Name="RunMenu" Header="{loc:Tr Action_Run}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor PlayBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="{loc:Tr Action_OpenIn}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor FolderOpenBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+        <MenuItem Command="{Binding OpenInstallLocationCommand}" Header="{loc:Tr Action_OpenInstallLocation}" />
+        <MenuItem Command="{Binding OpenUninstallerLocationCommand}" Header="{loc:Tr Action_OpenUninstallerLocation}" />
+        <MenuItem Command="{Binding OpenInstallSourceCommand}" Header="{loc:Tr Action_OpenInstallSource}" />
+        <Separator />
+        <MenuItem
+          Command="{Binding OpenInRegeditCommand}"
+          Header="{loc:Tr Action_OpenRegedit}"
+          InputGestureText="Ctrl+R" />
+      </MenuItem>
+      <MenuItem Command="{Binding OpenWebPageCommand}" Header="{loc:Tr Action_OpenWebPage}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor GlobeBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="{loc:Tr Action_SearchOnline}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor MagnifyingGlassBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="Google"
+          Header="Google" />
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="AlternativeTo"
+          Header="AlternativeTo" />
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="Slant"
+          Header="Slant" />
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="GitHub"
+          Header="GitHub" />
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="SourceForge"
+          Header="SourceForge" />
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="FossHub"
+          Header="FossHub" />
+        <MenuItem
+          Command="{Binding SearchOnlineCommand}"
+          CommandParameter="FileHippo"
+          Header="FileHippo" />
+      </MenuItem>
+      <MenuItem Header="{loc:Tr Action_Copy}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor CopyBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+        <MenuItem Command="{Binding CopyNamesCommand}" Header="{loc:Tr Action_CopyName}" />
+        <MenuItem Command="{Binding CopyGuidsCommand}" Header="{loc:Tr Action_CopyGuid}" />
+        <MenuItem Command="{Binding CopyUninstallStringsCommand}" Header="{loc:Tr Action_CopyUninstallString}" />
+        <MenuItem Command="{Binding CopyRegistryPathsCommand}" Header="{loc:Tr Action_CopyRegistryPath}" />
+        <Separator />
+        <MenuItem
+          Command="{Binding CopyFullInformationCommand}"
+          Header="{loc:Tr Action_CopyFull}"
+          InputGestureText="Ctrl+C" />
+        <MenuItem Command="{Binding AdvancedCopyCommand}" Header="{loc:Tr Action_CopyAdvanced}" />
+      </MenuItem>
+      <Separator />
+      <MenuItem Command="{Binding RenameCommand}" Header="{loc:Tr Action_Rename}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor PencilSimpleBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Command="{Binding EditNoteCommand}" Header="{loc:Tr Action_Note}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor NoteBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Command="{Binding DisableAutostartCommand}" Header="{loc:Tr Action_DisableAutostart}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor RocketBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem x:Name="OwnershipMenu" Header="{loc:Tr Action_TakeOwnership}" />
+      <MenuItem Header="{loc:Tr Action_Export}">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor ExportBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+        <MenuItem Command="{Binding ExportSelectedCommand}" Header="{loc:Tr Menu_ExportSelected}" />
+        <MenuItem Command="{Binding ExportBatchScriptCommand}" Header="{loc:Tr Menu_ExportBatch}" />
+        <MenuItem Command="{Binding ExportStoreAppsScriptCommand}" Header="{loc:Tr Menu_ExportStoreScript}" />
+        <Separator />
+        <MenuItem
+          Command="{Binding CreateRegistryBackupCommand}"
+          Header="{loc:Tr Menu_RegistryBackup}"
+          InputGestureText="Ctrl+B" />
+      </MenuItem>
+      <MenuItem Command="{Binding DeleteRegistryEntriesCommand}" Header="{loc:Tr Action_DeleteRegistry}">
+        <MenuItem.Icon>
+          <Path
+            Data="{icons:Phosphor XCircleBold}"
+            Fill="{DynamicResource DangerBrush}"
+            Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <Separator />
+      <MenuItem
+        Command="{Binding PropertiesCommand}"
+        Header="{loc:Tr Action_Properties}"
+        InputGestureText="Alt+Enter">
+        <MenuItem.Icon>
+          <Path Data="{icons:Phosphor ListMagnifyingGlassBold}" Style="{StaticResource Icon.Small}" />
+        </MenuItem.Icon>
+      </MenuItem>
+    </ContextMenu>
+  </UserControl.Resources>
+
+  <DockPanel>
+    <!--  ===== TITLE =====  -->
+    <ContentControl
+      Content="{loc:Tr Page_Apps}"
+      DockPanel.Dock="Top"
+      Style="{StaticResource PageTitle}"
+      Tag="{Binding TitleTag}" />
+
+    <!--  ===== TOOLBAR: search, scope and filter on the left, actions on the right; the search gives way first  =====  -->
+    <Grid Margin="0,14,0,0" DockPanel.Dock="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="3*" MaxWidth="340" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" MinWidth="12" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <Grid MinWidth="150">
+          <TextBox
+            x:Name="SearchBox"
+            Padding="30,0,28,0"
+            hc:InfoElement.Placeholder="{loc:Tr Search_Placeholder}"
+            Style="{StaticResource TextBox.Small}"
+            Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" />
+          <Path
+            Margin="10,0,0,0"
+            HorizontalAlignment="Left"
+            Data="{icons:Phosphor MagnifyingGlassBold}"
+            Fill="{DynamicResource ThirdlyTextBrush}"
+            IsHitTestVisible="False"
+            Style="{StaticResource Icon.Small}" />
+          <Button
+            Width="22"
+            Height="22"
+            Margin="0,0,3,0"
+            HorizontalAlignment="Right"
+            Command="{Binding ClearSearchCommand}"
+            Style="{StaticResource IconButton}"
+            ToolTip="{loc:Tr Search_Clear}"
+            Visibility="{Binding Search, Converter={StaticResource String2VisibilityConverter}}">
+            <Path Data="{icons:Phosphor XBold}" Style="{StaticResource Icon.Small}" />
+          </Button>
+      </Grid>
+
+      <StackPanel Grid.Column="1" Orientation="Horizontal">
+        <!--  Basic / Advanced / Everything  -->
+        <Border Margin="10,0,0,0" Style="{StaticResource SegmentBar}">
+          <ItemsControl Focusable="False" ItemsSource="{Binding Scopes}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="{x:Type local:QuickView}">
+                <ToggleButton
+                  Command="{Binding DataContext.ApplyViewCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                  CommandParameter="{Binding}"
+                  Content="{Binding Name}"
+                  IsChecked="{Binding IsActive, Mode=OneWay}"
+                  Style="{StaticResource Segment}"
+                  ToolTip="{Binding Description}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Border>
+        <Border
+          Margin="8,0,0,0"
+          Style="{StaticResource FilterChip}"
+          Visibility="{Binding SpecialView, Converter={StaticResource Object2VisibilityConverter}}">
+          <StackPanel Orientation="Horizontal">
+            <Path
+              Margin="0,0,6,0"
+              Data="{Binding SpecialView.Icon}"
+              Style="{StaticResource Icon.Small}" />
+            <TextBlock VerticalAlignment="Center" Text="{Binding SpecialView.Name}" />
+            <Button
+              Width="22"
+              Height="22"
+              Margin="4,0,0,0"
+              Command="{Binding ClearSpecialViewCommand}"
+              Foreground="{DynamicResource PrimaryBrush}"
+              Style="{StaticResource IconButton}"
+              ToolTip="{loc:Tr View_Clear}">
+              <Path Data="{icons:Phosphor XBold}" Style="{StaticResource Icon.Small}" />
+            </Button>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel Grid.Column="3" Orientation="Horizontal">
+        <Button
+          Command="{Binding SelectAllCommand}"
+          Style="{StaticResource IconButton}"
+          ToolTip="{loc:Tr Action_SelectAll}">
+          <Path Data="{icons:Phosphor ChecksBold}" Style="{StaticResource Icon}" />
+        </Button>
+        <Button
+          Command="{Binding InvertSelectionCommand}"
+          Style="{StaticResource IconButton}"
+          ToolTip="{loc:Tr Action_InvertSelection}">
+          <Path Data="{icons:Phosphor SwapBold}" Style="{StaticResource Icon}" />
+        </Button>
+        <Button
+          Command="{Binding SelectNoneCommand}"
+          Style="{StaticResource IconButton}"
+          ToolTip="{loc:Tr Action_SelectNone}">
+          <Path Data="{icons:Phosphor SquareBold}" Style="{StaticResource Icon}" />
+        </Button>
+        <Border
+          Width="1"
+          Height="18"
+          Margin="8,0"
+          Background="{DynamicResource BorderBrush}" />
+        <Button
+          Command="{Binding RefreshCommand}"
+          Style="{StaticResource IconButton}"
+          ToolTip="{loc:Tr Action_Refresh}">
+          <Path Data="{icons:Phosphor ArrowClockwiseBold}" Style="{StaticResource Icon}" />
+        </Button>
+        <Border
+          Width="1"
+          Height="18"
+          Margin="8,0"
+          Background="{DynamicResource BorderBrush}" />
+        <Button
+          Margin="0,0,8,0"
+          Command="{Binding QuietUninstallCommand}"
+          Style="{StaticResource ButtonDefault.Small}">
+          <StackPanel Orientation="Horizontal">
+            <Path Data="{icons:Phosphor SpeakerSlashBold}" Style="{StaticResource Icon.Small}" />
+            <TextBlock Margin="6,0,0,0" Text="{loc:Tr Action_Quiet}" />
+          </StackPanel>
+        </Button>
+        <Button Command="{Binding UninstallCommand}" Style="{StaticResource ButtonPrimary.Small}">
+          <StackPanel Orientation="Horizontal">
+            <Path Data="{icons:Phosphor TrashBold}" Style="{StaticResource Icon.Small}" />
+            <TextBlock Margin="6,0,0,0" Text="{loc:Tr Action_Uninstall}" />
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Grid>
+
+    <!--  ===== LEGEND / HINTS  =====  -->
+    <DockPanel Margin="2,10,2,12" DockPanel.Dock="Bottom">
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+        <Border Style="{StaticResource Kbd}">
+          <TextBlock Style="{StaticResource KbdText}" Text="Ctrl F" />
+        </Border>
+        <TextBlock Margin="6,0,14,0" Style="{StaticResource LegendText}" Text="{loc:Tr Hint_Search}" />
+        <Border Style="{StaticResource Kbd}">
+          <TextBlock Style="{StaticResource KbdText}" Text="Del" />
+        </Border>
+        <TextBlock Margin="6,0,14,0" Style="{StaticResource LegendText}" Text="{loc:Tr Action_Uninstall}" />
+        <Border Style="{StaticResource Kbd}">
+          <TextBlock Style="{StaticResource KbdText}" Text="F5" />
+        </Border>
+        <TextBlock Margin="6,0,0,0" Style="{StaticResource LegendText}" Text="{loc:Tr Action_Refresh}" />
+      </StackPanel>
+      <WrapPanel x:Name="Legend" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal">
+          <Ellipse Fill="{DynamicResource Status.VerifiedBrush}" Style="{StaticResource LegendDot}" />
+          <TextBlock Style="{StaticResource LegendText}" Text="{loc:Tr Status_Verified}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Ellipse Fill="{DynamicResource Status.UnverifiedBrush}" Style="{StaticResource LegendDot}" />
+          <TextBlock Style="{StaticResource LegendText}" Text="{loc:Tr Status_Unverified}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Ellipse Fill="{DynamicResource Status.InvalidBrush}" Style="{StaticResource LegendDot}" />
+          <TextBlock Style="{StaticResource LegendText}" Text="{loc:Tr Status_Invalid}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Ellipse Fill="{DynamicResource Status.OrphanBrush}" Style="{StaticResource LegendDot}" />
+          <TextBlock Style="{StaticResource LegendText}" Text="{loc:Tr Status_Orphan}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Ellipse Fill="{DynamicResource Status.FeatureBrush}" Style="{StaticResource LegendDot}" />
+          <TextBlock Style="{StaticResource LegendText}" Text="{loc:Tr Status_Feature}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Ellipse Fill="{DynamicResource Status.StoreBrush}" Style="{StaticResource LegendDot}" />
+          <TextBlock Style="{StaticResource LegendText}" Text="{loc:Tr Status_Store}" />
+        </StackPanel>
+      </WrapPanel>
+    </DockPanel>
+
+    <!--  ===== SCAN STRIP  =====  -->
+    <Border
+      Margin="0,12,0,0"
+      Padding="14,10"
+      DockPanel.Dock="Top"
+      Style="{StaticResource Card}"
+      Visibility="{Binding IsScanning, Converter={StaticResource Boolean2VisibilityConverter}}">
+      <DockPanel>
+        <Button
+          Margin="12,0,0,0"
+          Command="{Binding CancelScanCommand}"
+          Content="{loc:Tr Action_Cancel}"
+          DockPanel.Dock="Right"
+          Style="{StaticResource ButtonDefault.Small}" />
+        <Border
+          Margin="0,0,12,0"
+          VerticalAlignment="Center"
+          Style="{StaticResource IconBadge}">
+          <Path
+            HorizontalAlignment="Center"
+            Data="{icons:Phosphor MagnifyingGlassBold}"
+            Style="{StaticResource Icon}" />
+        </Border>
+        <StackPanel VerticalAlignment="Center">
+          <DockPanel>
+            <TextBlock
+              DockPanel.Dock="Right"
+              FontFamily="{StaticResource Font.Mono}"
+              Style="{StaticResource TextBlockCaption}"
+              Text="{Binding ScanValue, StringFormat={}{0:P0}}"
+              Visibility="{Binding ScanIndeterminate, Converter={StaticResource Boolean2VisibilityReConverter}}" />
+            <TextBlock
+              FontWeight="SemiBold"
+              Style="{StaticResource TextBlockDefault}"
+              Text="{Binding ScanMessage}"
+              TextTrimming="CharacterEllipsis"
+              TextWrapping="NoWrap" />
+          </DockPanel>
+          <ProgressBar
+            Height="4"
+            Margin="0,7,0,5"
+            IsIndeterminate="{Binding ScanIndeterminate}"
+            Maximum="1"
+            Style="{StaticResource ProgressBarFlat}"
+            Value="{Binding ScanValue}" />
+          <TextBlock
+            Style="{StaticResource TextBlockCaption}"
+            Text="{Binding ScanDetail}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap" />
+        </StackPanel>
+      </DockPanel>
+    </Border>
+
+    <!--  ===== LIST + DETAILS  =====  -->
+    <Grid Margin="0,12,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition x:Name="DetailsColumn" Width="340" />
+      </Grid.ColumnDefinitions>
+
+      <Border Padding="6,2,4,4" Style="{StaticResource Card}">
+        <Grid>
+          <DataGrid
+            x:Name="List"
+            ItemsSource="{Binding View}"
+            SelectionChanged="OnSelectionChanged"
+            Style="{StaticResource AppGrid}">
+            <DataGrid.Columns>
+              <DataGridTemplateColumn
+                x:Name="CheckColumn"
+                Width="36"
+                CanUserResize="False"
+                CanUserSort="False">
+                <DataGridTemplateColumn.CellStyle>
+                  <Style BasedOn="{StaticResource AppCell}" TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="0" />
+                  </Style>
+                </DataGridTemplateColumn.CellStyle>
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                    <CheckBox
+                      HorizontalAlignment="Center"
+                      Focusable="False"
+                      IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
+
+              <DataGridTemplateColumn
+                Width="2.2*"
+                MinWidth="200"
+                Header="{loc:Tr Column_Name}"
+                SortMemberPath="Name">
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate DataType="{x:Type local:AppItem}">
+                    <DockPanel>
+                      <Border
+                        Margin="0,0,9,0"
+                        DockPanel.Dock="Left"
+                        Style="{StaticResource StatusMark}"
+                        ToolTip="{Binding StatusText}" />
+                      <Image
+                        Width="20"
+                        Height="20"
+                        Margin="0,0,10,0"
+                        DockPanel.Dock="Left"
+                        Source="{Binding Icon}" />
+                      <Path
+                        Margin="6,0,0,0"
+                        Data="{icons:Phosphor NoteBold}"
+                        DockPanel.Dock="Right"
+                        Fill="{DynamicResource ThirdlyTextBrush}"
+                        Style="{StaticResource Icon.Small}"
+                        ToolTip="{Binding Note}"
+                        Visibility="{Binding HasNote, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                      <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis" />
+                    </DockPanel>
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
+
+              <DataGridTextColumn
+                Width="1.3*"
+                MinWidth="100"
+                Binding="{Binding Publisher}"
+                Header="{loc:Tr Column_Publisher}">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                Width="110"
+                Binding="{Binding Version}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Version}">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                Width="92"
+                Binding="{Binding SizeText}"
+                FontFamily="{StaticResource Font.Mono}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Size}"
+                SortMemberPath="SizeKb">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+
+              <DataGridTextColumn
+                Width="96"
+                Binding="{Binding InstallDateText}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Installed}"
+                SortMemberPath="InstallDate" />
+
+              <DataGridTextColumn
+                Width="110"
+                Binding="{Binding Kind}"
+                FontSize="{StaticResource FontSize.XS}"
+                Header="{loc:Tr Column_Type}">
+                <DataGridTextColumn.ElementStyle>
+                  <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </DataGridTextColumn.ElementStyle>
+              </DataGridTextColumn>
+            </DataGrid.Columns>
+          </DataGrid>
+
+          <!--  Nothing matches  -->
+          <StackPanel
+            Margin="0,60,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Visibility="{Binding IsEmptyResult, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <Path
+              Width="28"
+              Height="28"
+              Data="{icons:Phosphor MagnifyingGlassBold}"
+              Fill="{DynamicResource ThirdlyTextBrush}"
+              Style="{StaticResource Icon.Large}" />
+            <TextBlock
+              Margin="0,10,0,0"
+              HorizontalAlignment="Center"
+              FontWeight="SemiBold"
+              Style="{StaticResource TextBlockDefault}"
+              Text="{loc:Tr Empty_Title}" />
+            <TextBlock
+              Margin="0,4,0,0"
+              HorizontalAlignment="Center"
+              Style="{StaticResource TextBlockCaption}"
+              Text="{loc:Tr Empty_Hint}" />
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <!--  ===== DETAILS =====  -->
+      <Border
+        x:Name="DetailsPane"
+        Grid.Column="1"
+        Margin="12,0,0,0"
+        Style="{StaticResource Card}">
+        <Grid>
+          <!--  One entry  -->
+          <DockPanel Margin="16,16,16,14" Visibility="{Binding Current, Converter={StaticResource Object2VisibilityConverter}}">
+            <StackPanel DockPanel.Dock="Bottom">
+              <Button
+                HorizontalAlignment="Stretch"
+                Command="{Binding UninstallCommand}"
+                Style="{StaticResource ButtonPrimary.Small}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor TrashBold}" Style="{StaticResource Icon.Small}" />
+                  <TextBlock Margin="6,0,0,0" Text="{loc:Tr Action_Uninstall}" />
+                </StackPanel>
+              </Button>
+              <UniformGrid Margin="0,8,0,0" Columns="3">
+                <Button
+                  Margin="0,0,4,0"
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding QuietUninstallCommand}"
+                  Content="{loc:Tr Action_Quiet}"
+                  Style="{StaticResource ButtonDefault.Small}" />
+                <Button
+                  Margin="2,0"
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding ModifyCommand}"
+                  Content="{loc:Tr Action_Modify}"
+                  Style="{StaticResource ButtonDefault.Small}" />
+                <Button
+                  x:Name="MoreButton"
+                  Margin="4,0,0,0"
+                  HorizontalAlignment="Stretch"
+                  Click="OnMoreClick"
+                  Style="{StaticResource ButtonDefault.Small}">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{loc:Tr Action_More}" />
+                    <Path
+                      Width="9"
+                      Margin="6,0,0,0"
+                      Data="{icons:Phosphor CaretDownBold}"
+                      Style="{StaticResource Icon.Small}" />
+                  </StackPanel>
+                </Button>
+              </UniformGrid>
+            </StackPanel>
+
+            <ScrollViewer
+              Margin="0,0,-10,12"
+              Padding="0,0,10,0"
+              HorizontalScrollBarVisibility="Disabled"
+              VerticalScrollBarVisibility="Auto">
+              <StackPanel DataContext="{Binding Current}">
+                <DockPanel>
+                  <Border
+                    Width="44"
+                    Height="44"
+                    Margin="0,0,12,0"
+                    Background="{DynamicResource SecondaryRegionBrush}"
+                    CornerRadius="{StaticResource Radius.Lg}">
+                    <Image
+                      Width="28"
+                      Height="28"
+                      Source="{Binding Icon}" />
+                  </Border>
+                  <StackPanel VerticalAlignment="Center">
+                    <TextBlock
+                      FontSize="{StaticResource FontSize.Md}"
+                      FontWeight="SemiBold"
+                      Foreground="{DynamicResource PrimaryTextBrush}"
+                      Text="{Binding Name}"
+                      TextWrapping="Wrap" />
+                    <TextBlock
+                      Margin="0,2,0,0"
+                      Style="{StaticResource TextBlockCaption}"
+                      Text="{Binding Publisher}" />
+                  </StackPanel>
+                </DockPanel>
+
+                <ItemsControl
+                  Margin="0,12,0,0"
+                  Focusable="False"
+                  ItemsSource="{Binding Tags}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Border Style="{StaticResource Tag}">
+                        <TextBlock Text="{Binding}" />
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--  Size / version / installed  -->
+                <Border
+                  Margin="0,6,0,4"
+                  Padding="0,10"
+                  BorderBrush="{DynamicResource BorderBrush}"
+                  BorderThickness="0,1">
+                  <UniformGrid Columns="3">
+                    <StackPanel>
+                      <TextBlock Style="{StaticResource SectionHeaderStyle}" Text="{loc:Tr Column_Size}" />
+                      <TextBlock
+                        Margin="0,4,0,0"
+                        FontWeight="SemiBold"
+                        Style="{StaticResource DetailValue}"
+                        Text="{Binding SizeText, TargetNullValue='—', FallbackValue='—'}" />
+                    </StackPanel>
+                    <StackPanel>
+                      <TextBlock Style="{StaticResource SectionHeaderStyle}" Text="{loc:Tr Column_Version}" />
+                      <TextBlock
+                        Margin="0,4,8,0"
+                        FontWeight="SemiBold"
+                        Style="{StaticResource DetailValue}"
+                        Text="{Binding Version}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap" />
+                    </StackPanel>
+                    <StackPanel>
+                      <TextBlock Style="{StaticResource SectionHeaderStyle}" Text="{loc:Tr Column_Installed}" />
+                      <TextBlock
+                        Margin="0,4,0,0"
+                        FontWeight="SemiBold"
+                        Style="{StaticResource DetailValue}"
+                        Text="{Binding InstallDateText}" />
+                    </StackPanel>
+                  </UniformGrid>
+                </Border>
+
+                <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Type}" />
+                <TextBlock Style="{StaticResource DetailValue}" Text="{Binding Kind}" />
+
+                <StackPanel Visibility="{Binding StatusText, Converter={StaticResource String2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Status}" />
+                  <DockPanel>
+                    <Border
+                      Width="8"
+                      Height="8"
+                      Margin="0,0,8,0"
+                      CornerRadius="4"
+                      DockPanel.Dock="Left"
+                      Style="{StaticResource StatusMark}" />
+                    <TextBlock Style="{StaticResource DetailValue}" Text="{Binding StatusText}" />
+                  </DockPanel>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding InstallLocation, Converter={StaticResource String2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Location}" />
+                  <DockPanel>
+                    <Button
+                      Width="24"
+                      Height="24"
+                      Margin="6,0,0,0"
+                      VerticalAlignment="Top"
+                      Command="{Binding DataContext.OpenInstallLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      DockPanel.Dock="Right"
+                      Style="{StaticResource IconButton}"
+                      ToolTip="{loc:Tr Action_OpenInstallLocation}">
+                      <Path Data="{icons:Phosphor ArrowSquareOutBold}" Style="{StaticResource Icon.Small}" />
+                    </Button>
+                    <TextBlock Style="{StaticResource DetailMono}" Text="{Binding InstallLocation}" />
+                  </DockPanel>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding UninstallString, Converter={StaticResource String2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_UninstallCommand}" />
+                  <DockPanel>
+                    <Button
+                      Width="24"
+                      Height="24"
+                      Margin="6,0,0,0"
+                      VerticalAlignment="Top"
+                      Command="{Binding DataContext.CopyUninstallStringsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      DockPanel.Dock="Right"
+                      Style="{StaticResource IconButton}"
+                      ToolTip="{loc:Tr Action_CopyUninstallString}">
+                      <Path Data="{icons:Phosphor CopyBold}" Style="{StaticResource Icon.Small}" />
+                    </Button>
+                    <TextBlock Style="{StaticResource DetailMono}" Text="{Binding UninstallString}" />
+                  </DockPanel>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding RegistryPath, Converter={StaticResource String2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Registry}" />
+                  <DockPanel>
+                    <Button
+                      Width="24"
+                      Height="24"
+                      Margin="6,0,0,0"
+                      VerticalAlignment="Top"
+                      Command="{Binding DataContext.OpenInRegeditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      DockPanel.Dock="Right"
+                      Style="{StaticResource IconButton}"
+                      ToolTip="{loc:Tr Action_OpenRegedit}">
+                      <Path Data="{icons:Phosphor ArrowSquareOutBold}" Style="{StaticResource Icon.Small}" />
+                    </Button>
+                    <TextBlock Style="{StaticResource DetailMono}" Text="{Binding RegistryPath}" />
+                  </DockPanel>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding AboutUrl, Converter={StaticResource String2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Website}" />
+                  <TextBlock Style="{StaticResource DetailValue}">
+                    <Hyperlink Command="{Binding DataContext.OpenWebPageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="{DynamicResource PrimaryBrush}">
+                      <Run Text="{Binding AboutUrl, Mode=OneWay}" />
+                    </Hyperlink>
+                  </TextBlock>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding HasNote, Converter={StaticResource Boolean2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Note}" />
+                  <TextBlock Style="{StaticResource DetailValue}" Text="{Binding Note}" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding Comment, Converter={StaticResource String2VisibilityConverter}}">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Detail_Comment}" />
+                  <TextBlock Style="{StaticResource TextBlockCaption}" Text="{Binding Comment}" />
+                </StackPanel>
+              </StackPanel>
+            </ScrollViewer>
+          </DockPanel>
+
+          <!--  Several entries  -->
+          <DockPanel Margin="16,16,16,14" Visibility="{Binding HasMultipleSelected, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <StackPanel DockPanel.Dock="Bottom">
+              <Button
+                HorizontalAlignment="Stretch"
+                Command="{Binding UninstallCommand}"
+                Style="{StaticResource ButtonPrimary.Small}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor TrashBold}" Style="{StaticResource Icon.Small}" />
+                  <TextBlock Margin="6,0,0,0" Text="{loc:Tr Action_UninstallAll}" />
+                </StackPanel>
+              </Button>
+              <UniformGrid Margin="0,8,0,0" Columns="2">
+                <Button
+                  Margin="0,0,4,0"
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding QuietUninstallCommand}"
+                  Content="{loc:Tr Action_Quiet}"
+                  Style="{StaticResource ButtonDefault.Small}" />
+                <Button
+                  Margin="4,0,0,0"
+                  HorizontalAlignment="Stretch"
+                  Click="OnMoreClick"
+                  Style="{StaticResource ButtonDefault.Small}">
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{loc:Tr Action_More}" />
+                    <Path
+                      Width="9"
+                      Margin="6,0,0,0"
+                      Data="{icons:Phosphor CaretDownBold}"
+                      Style="{StaticResource Icon.Small}" />
+                  </StackPanel>
+                </Button>
+              </UniformGrid>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top">
+              <TextBlock Style="{StaticResource SectionHeaderStyle}" Text="{loc:Tr Detail_Selection}" />
+              <TextBlock
+                Margin="0,8,0,0"
+                Style="{StaticResource StatValue}"
+                Text="{Binding SelectedCount}" />
+              <TextBlock Style="{StaticResource TextBlockCaption}" Text="{Binding SelectedSize, StringFormat={}{0}}" />
+              <Border
+                Margin="0,12,0,8"
+                Style="{StaticResource RowSeparator}" />
+            </StackPanel>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+              <ItemsControl Focusable="False" ItemsSource="{Binding Selection}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="{x:Type local:AppItem}">
+                    <DockPanel Margin="0,3">
+                      <TextBlock
+                        Margin="8,0,0,0"
+                        DockPanel.Dock="Right"
+                        FontFamily="{StaticResource Font.Mono}"
+                        Style="{StaticResource TextBlockCaption}"
+                        Text="{Binding SizeText}" />
+                      <Image
+                        Width="16"
+                        Height="16"
+                        Margin="0,0,8,0"
+                        Source="{Binding Icon}" />
+                      <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="{StaticResource FontSize.Sm}"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis" />
+                    </DockPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </DockPanel>
+
+          <!--  Nothing selected: what's in the list  -->
+          <StackPanel Margin="16,16,16,14" Visibility="{Binding HasSelection, Converter={StaticResource Boolean2VisibilityReConverter}}">
+            <TextBlock Style="{StaticResource SectionHeaderStyle}" Text="{loc:Tr Detail_Listed}" />
+            <TextBlock
+              Margin="0,8,0,0"
+              Style="{StaticResource StatValue}"
+              Text="{Binding ShownCount}" />
+            <TextBlock Style="{StaticResource TextBlockCaption}" Text="{Binding ShownSize}" />
+            <Border Margin="0,14,0,10" Style="{StaticResource RowSeparator}" />
+            <TextBlock Style="{StaticResource TextBlockCaption}" Text="{loc:Tr Detail_NothingSelected}" />
+            <StackPanel Margin="0,14,0,0">
+              <DockPanel Margin="0,0,0,8">
+                <Border DockPanel.Dock="Right" Style="{StaticResource Kbd}">
+                  <TextBlock Style="{StaticResource KbdText}" Text="Del" />
+                </Border>
+                <TextBlock Style="{StaticResource TextBlockCaption}" Text="{loc:Tr Action_Uninstall}" />
+              </DockPanel>
+              <DockPanel Margin="0,0,0,8">
+                <Border DockPanel.Dock="Right" Style="{StaticResource Kbd}">
+                  <TextBlock Style="{StaticResource KbdText}" Text="Shift Del" />
+                </Border>
+                <TextBlock Style="{StaticResource TextBlockCaption}" Text="{loc:Tr Action_QuietUninstall}" />
+              </DockPanel>
+              <DockPanel Margin="0,0,0,8">
+                <Border DockPanel.Dock="Right" Style="{StaticResource Kbd}">
+                  <TextBlock Style="{StaticResource KbdText}" Text="Alt Enter" />
+                </Border>
+                <TextBlock Style="{StaticResource TextBlockCaption}" Text="{loc:Tr Action_Properties}" />
+              </DockPanel>
+              <DockPanel Margin="0,0,0,8">
+                <Border DockPanel.Dock="Right" Style="{StaticResource Kbd}">
+                  <TextBlock Style="{StaticResource KbdText}" Text="Ctrl A" />
+                </Border>
+                <TextBlock Style="{StaticResource TextBlockCaption}" Text="{loc:Tr Action_SelectAll}" />
+              </DockPanel>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </Border>
+    </Grid>
+  </DockPanel>
+</UserControl>

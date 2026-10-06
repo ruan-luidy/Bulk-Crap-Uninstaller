@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Action_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Action_Copy" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="Action_CopyAdvanced" xml:space="preserve">
+    <value>Cópia avançada…</value>
+  </data>
+  <data name="Action_CopyFull" xml:space="preserve">
+    <value>Informação completa</value>
+  </data>
+  <data name="Action_CopyGuid" xml:space="preserve">
+    <value>GUID / código do produto</value>
+  </data>
+  <data name="Action_CopyName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Action_CopyRegistryPath" xml:space="preserve">
+    <value>Caminho no registro</value>
+  </data>
+  <data name="Action_CopyUninstallString" xml:space="preserve">
+    <value>Comando de desinstalação</value>
+  </data>
+  <data name="Action_DeleteRegistry" xml:space="preserve">
+    <value>Apagar entrada do registro</value>
+  </data>
+  <data name="Action_DisableAutostart" xml:space="preserve">
+    <value>Tirar da inicialização</value>
+  </data>
+  <data name="Action_Export" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="Action_InvertSelection" xml:space="preserve">
+    <value>Inverter seleção</value>
+  </data>
+  <data name="Action_ManualUninstall" xml:space="preserve">
+    <value>Desinstalação manual</value>
+  </data>
+  <data name="Action_Modify" xml:space="preserve">
+    <value>Modificar</value>
+  </data>
+  <data name="Action_More" xml:space="preserve">
+    <value>Mais</value>
+  </data>
+  <data name="Action_Msi" xml:space="preserve">
+    <value>Msiexec</value>
+  </data>
+  <data name="Action_MsiModify" xml:space="preserve">
+    <value>Instalar / modificar</value>
+  </data>
+  <data name="Action_MsiQuiet" xml:space="preserve">
+    <value>Desinstalar em silêncio</value>
+  </data>
+  <data name="Action_MsiUninstall" xml:space="preserve">
+    <value>Desinstalar</value>
+  </data>
+  <data name="Action_Note" xml:space="preserve">
+    <value>Editar nota</value>
+  </data>
+  <data name="Action_OpenIn" xml:space="preserve">
+    <value>Abrir no Explorer</value>
+  </data>
+  <data name="Action_OpenInstallLocation" xml:space="preserve">
+    <value>Pasta de instalação</value>
+  </data>
+  <data name="Action_OpenInstallSource" xml:space="preserve">
+    <value>Origem da instalação</value>
+  </data>
+  <data name="Action_OpenRegedit" xml:space="preserve">
+    <value>Abrir chave no Regedit</value>
+  </data>
+  <data name="Action_OpenUninstallerLocation" xml:space="preserve">
+    <value>Pasta do desinstalador</value>
+  </data>
+  <data name="Action_OpenWebPage" xml:space="preserve">
+    <value>Abrir site</value>
+  </data>
+  <data name="Action_Properties" xml:space="preserve">
+    <value>Propriedades</value>
+  </data>
+  <data name="Action_Quiet" xml:space="preserve">
+    <value>Silencioso</value>
+  </data>
+  <data name="Action_QuietUninstall" xml:space="preserve">
+    <value>Desinstalar em silêncio</value>
+  </data>
+  <data name="Action_Refresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="Action_Rename" xml:space="preserve">
+    <value>Renomear</value>
+  </data>
+  <data name="Action_Run" xml:space="preserve">
+    <value>Executar</value>
+  </data>
+  <data name="Action_SearchOnline" xml:space="preserve">
+    <value>Pesquisar na internet</value>
+  </data>
+  <data name="Action_SelectAll" xml:space="preserve">
+    <value>Selecionar tudo</value>
+  </data>
+  <data name="Action_SelectNone" xml:space="preserve">
+    <value>Limpar seleção</value>
+  </data>
+  <data name="Action_TakeOwnership" xml:space="preserve">
+    <value>Tomar posse</value>
+  </data>
+  <data name="Action_Uninstall" xml:space="preserve">
+    <value>Desinstalar</value>
+  </data>
+  <data name="Action_UninstallAll" xml:space="preserve">
+    <value>Desinstalar todos</value>
+  </data>
+  <data name="Apps_Shown" xml:space="preserve">
+    <value>{0} na lista</value>
+  </data>
+  <data name="Choice_Always" xml:space="preserve">
+    <value>Sempre</value>
+  </data>
+  <data name="Choice_Ask" xml:space="preserve">
+    <value>Perguntar sempre</value>
+  </data>
+  <data name="Choice_DoNothing" xml:space="preserve">
+    <value>Nada</value>
+  </data>
+  <data name="Choice_Never" xml:space="preserve">
+    <value>Nunca</value>
+  </data>
+  <data name="Choice_OpenProperties" xml:space="preserve">
+    <value>Abrir propriedades</value>
+  </data>
+  <data name="Choice_SystemLanguage" xml:space="preserve">
+    <value>Igual ao Windows</value>
+  </data>
+  <data name="Choice_Uninstall" xml:space="preserve">
+    <value>Desinstalar</value>
+  </data>
+  <data name="Column_Installed" xml:space="preserve">
+    <value>INSTALADO</value>
+  </data>
+  <data name="Column_Name" xml:space="preserve">
+    <value>NOME</value>
+  </data>
+  <data name="Column_Publisher" xml:space="preserve">
+    <value>EDITORA</value>
+  </data>
+  <data name="Column_Size" xml:space="preserve">
+    <value>TAMANHO</value>
+  </data>
+  <data name="Column_Type" xml:space="preserve">
+    <value>TIPO</value>
+  </data>
+  <data name="Column_Version" xml:space="preserve">
+    <value>VERSÃO</value>
+  </data>
+  <data name="Detail_Comment" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="Detail_Listed" xml:space="preserve">
+    <value>NA LISTA</value>
+  </data>
+  <data name="Detail_Location" xml:space="preserve">
+    <value>Pasta de instalação</value>
+  </data>
+  <data name="Detail_Note" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="Detail_NothingSelected" xml:space="preserve">
+    <value>Escolha um aplicativo pra ver onde ele está, como desinstala e o que mais dá pra fazer com ele.</value>
+  </data>
+  <data name="Detail_Registry" xml:space="preserve">
+    <value>Chave do registro</value>
+  </data>
+  <data name="Detail_Selection" xml:space="preserve">
+    <value>SELECIONADOS</value>
+  </data>
+  <data name="Detail_Status" xml:space="preserve">
+    <value>Situação</value>
+  </data>
+  <data name="Detail_Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Detail_UninstallCommand" xml:space="preserve">
+    <value>Comando de desinstalação</value>
+  </data>
+  <data name="Detail_Website" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Empty_Hint" xml:space="preserve">
+    <value>Tente outra busca ou uma visão mais ampla</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>Nada por aqui</value>
+  </data>
+  <data name="Hint_Search" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Library_Header" xml:space="preserve">
+    <value>INSTALADO</value>
+  </data>
+  <data name="Library_Scanning" xml:space="preserve">
+    <value>Procurando aplicativos…</value>
+  </data>
+  <data name="Library_Summary" xml:space="preserve">
+    <value>{0} apps · {1}</value>
+  </data>
+  <data name="Locked_Working" xml:space="preserve">
+    <value>Trabalhando na desinstalação…</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="Menu_CheckUpdates" xml:space="preserve">
+    <value>Procurar atualizações</value>
+  </data>
+  <data name="Menu_DiskCleanup" xml:space="preserve">
+    <value>Limpeza de disco</value>
+  </data>
+  <data name="Menu_Donate" xml:space="preserve">
+    <value>Doar</value>
+  </data>
+  <data name="Menu_ExportBatch" xml:space="preserve">
+    <value>Exportar script .bat de desinstalação</value>
+  </data>
+  <data name="Menu_ExportSelected" xml:space="preserve">
+    <value>Exportar seleção em XML</value>
+  </data>
+  <data name="Menu_ExportStoreScript" xml:space="preserve">
+    <value>Exportar script PowerShell dos apps da Store</value>
+  </data>
+  <data name="Menu_Feedback" xml:space="preserve">
+    <value>Enviar feedback</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="Menu_InstallNet35" xml:space="preserve">
+    <value>Instalar o .NET 3.5</value>
+  </data>
+  <data name="Menu_More" xml:space="preserve">
+    <value>Mais</value>
+  </data>
+  <data name="Menu_ProgramsAndFeatures" xml:space="preserve">
+    <value>Programas e Recursos</value>
+  </data>
+  <data name="Menu_RegistryBackup" xml:space="preserve">
+    <value>Backup do registro</value>
+  </data>
+  <data name="Menu_SetupWizard" xml:space="preserve">
+    <value>Assistente de configuração</value>
+  </data>
+  <data name="Menu_SystemRestore" xml:space="preserve">
+    <value>Restauração do sistema</value>
+  </data>
+  <data name="Menu_Tools" xml:space="preserve">
+    <value>Ferramentas do Windows</value>
+  </data>
+  <data name="Menu_Troubleshooter" xml:space="preserve">
+    <value>Solução de problemas de instalação</value>
+  </data>
+  <data name="Menu_UninstallBcu" xml:space="preserve">
+    <value>Desinstalar o BCUninstaller</value>
+  </data>
+  <data name="Nav_Apps" xml:space="preserve">
+    <value>Aplicativos</value>
+  </data>
+  <data name="Nav_Library" xml:space="preserve">
+    <value>BIBLIOTECA</value>
+  </data>
+  <data name="Nav_Settings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Nav_Tools" xml:space="preserve">
+    <value>FERRAMENTAS</value>
+  </data>
+  <data name="Nav_Views" xml:space="preserve">
+    <value>MOSTRAR SÓ</value>
+  </data>
+  <data name="Options_About_Line" xml:space="preserve">
+    <value>Remove muitos programas indesejados de uma vez</value>
+  </data>
+  <data name="Options_Accent" xml:space="preserve">
+    <value>Destaque</value>
+  </data>
+  <data name="Options_Appearance" xml:space="preserve">
+    <value>APARÊNCIA</value>
+  </data>
+  <data name="Options_AskLoud" xml:space="preserve">
+    <value>Perguntar sobre itens com janela</value>
+  </data>
+  <data name="Options_AskLoud_Hint" xml:space="preserve">
+    <value>quando não dá pra desinstalar em silêncio</value>
+  </data>
+  <data name="Options_AutoDetect" xml:space="preserve">
+    <value>Detectar pastas de programas</value>
+  </data>
+  <data name="Options_AutoDetect_Hint" xml:space="preserve">
+    <value>Program Files, bibliotecas da Steam…</value>
+  </data>
+  <data name="Options_Automatize" xml:space="preserve">
+    <value>Automatizar desinstaladores</value>
+  </data>
+  <data name="Options_AutomatizeKill" xml:space="preserve">
+    <value>Matar automação travada</value>
+  </data>
+  <data name="Options_Automatize_Hint" xml:space="preserve">
+    <value>clica nos desinstaladores sem modo silencioso</value>
+  </data>
+  <data name="Options_BackupFolder" xml:space="preserve">
+    <value>Pasta de backup</value>
+  </data>
+  <data name="Options_BackupFolder_Placeholder" xml:space="preserve">
+    <value>perguntar sempre</value>
+  </data>
+  <data name="Options_BackupLeftovers" xml:space="preserve">
+    <value>Backup dos restos</value>
+  </data>
+  <data name="Options_Browse" xml:space="preserve">
+    <value>Procurar</value>
+  </data>
+  <data name="Options_CacheAppInfo" xml:space="preserve">
+    <value>Guardar info dos apps</value>
+  </data>
+  <data name="Options_CacheAppInfo_Hint" xml:space="preserve">
+    <value>abre mais rápido, pode mostrar dado velho</value>
+  </data>
+  <data name="Options_CacheCertificates" xml:space="preserve">
+    <value>Guardar certificados</value>
+  </data>
+  <data name="Options_Certificates" xml:space="preserve">
+    <value>Verificar certificados</value>
+  </data>
+  <data name="Options_Certificates_Hint" xml:space="preserve">
+    <value>roda em segundo plano depois que a lista carrega</value>
+  </data>
+  <data name="Options_CheckUpdates" xml:space="preserve">
+    <value>Procurar atualizações</value>
+  </data>
+  <data name="Options_Checkboxes" xml:space="preserve">
+    <value>Coluna de seleção</value>
+  </data>
+  <data name="Options_Checkboxes_Hint" xml:space="preserve">
+    <value>marcar vários itens com o mouse</value>
+  </data>
+  <data name="Options_Checks" xml:space="preserve">
+    <value>VERIFICAÇÕES</value>
+  </data>
+  <data name="Options_ClearCaches" xml:space="preserve">
+    <value>Limpar caches</value>
+  </data>
+  <data name="Options_Collision" xml:space="preserve">
+    <value>Sem proteção de colisão</value>
+  </data>
+  <data name="Options_Collision_Hint" xml:space="preserve">
+    <value>deixa desinstaladores parentes rodarem juntos</value>
+  </data>
+  <data name="Options_Colorblind" xml:space="preserve">
+    <value>Cores pra daltônicos</value>
+  </data>
+  <data name="Options_Colorblind_Hint" xml:space="preserve">
+    <value>nas marcas e na legenda</value>
+  </data>
+  <data name="Options_Concurrent" xml:space="preserve">
+    <value>Vários ao mesmo tempo</value>
+  </data>
+  <data name="Options_Concurrent_Hint" xml:space="preserve">
+    <value>desinstala em paralelo quando é seguro</value>
+  </data>
+  <data name="Options_CustomFolders" xml:space="preserve">
+    <value>Pastas extras, uma por linha</value>
+  </data>
+  <data name="Options_CustomFolders_Note" xml:space="preserve">
+    <value>Pastas com programas, vasculhadas atrás dos sem registro.</value>
+  </data>
+  <data name="Options_Daemon" xml:space="preserve">
+    <value>Usar o daemon</value>
+  </data>
+  <data name="Options_Daemon_Hint" xml:space="preserve">
+    <value>um processo ajudante pra todas as tarefas</value>
+  </data>
+  <data name="Options_DarkTheme" xml:space="preserve">
+    <value>Tema escuro</value>
+  </data>
+  <data name="Options_DefaultList" xml:space="preserve">
+    <value>Carregar lista padrão</value>
+  </data>
+  <data name="Options_DefaultList_Hint" xml:space="preserve">
+    <value>se houver uma ao lado do BCU</value>
+  </data>
+  <data name="Options_Detection" xml:space="preserve">
+    <value>DETECÇÃO</value>
+  </data>
+  <data name="Options_Detection_Note" xml:space="preserve">
+    <value>Vale a partir do próximo refresh (F5).</value>
+  </data>
+  <data name="Options_DoubleClick" xml:space="preserve">
+    <value>Duplo clique</value>
+  </data>
+  <data name="Options_External" xml:space="preserve">
+    <value>COMANDOS EXTERNOS</value>
+  </data>
+  <data name="Options_ExternalAfter" xml:space="preserve">
+    <value>Depois de desinstalar</value>
+  </data>
+  <data name="Options_ExternalBefore" xml:space="preserve">
+    <value>Antes de desinstalar</value>
+  </data>
+  <data name="Options_ExternalEnable" xml:space="preserve">
+    <value>Rodar comandos</value>
+  </data>
+  <data name="Options_External_Hint" xml:space="preserve">
+    <value>antes e depois de cada tarefa</value>
+  </data>
+  <data name="Options_External_Note" xml:space="preserve">
+    <value>Um comando por linha; caminhos relativos partem da pasta do BCU.</value>
+  </data>
+  <data name="Options_Folders" xml:space="preserve">
+    <value>PASTAS DE PROGRAMAS</value>
+  </data>
+  <data name="Options_Highlight" xml:space="preserve">
+    <value>Marcar itens especiais</value>
+  </data>
+  <data name="Options_Highlight_Hint" xml:space="preserve">
+    <value>apps da Store, recursos e sem registro</value>
+  </data>
+  <data name="Options_KillStuck" xml:space="preserve">
+    <value>Matar desinstaladores travados</value>
+  </data>
+  <data name="Options_KillStuck_Hint" xml:space="preserve">
+    <value>silenciosos que param de responder</value>
+  </data>
+  <data name="Options_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Options_Language_Hint" xml:space="preserve">
+    <value>vale também pros diálogos</value>
+  </data>
+  <data name="Options_Leftovers" xml:space="preserve">
+    <value>RESTOS E SEGURANÇA</value>
+  </data>
+  <data name="Options_List" xml:space="preserve">
+    <value>LISTA</value>
+  </data>
+  <data name="Options_Maintenance" xml:space="preserve">
+    <value>MANUTENÇÃO</value>
+  </data>
+  <data name="Options_MaxConcurrent" xml:space="preserve">
+    <value>No máximo</value>
+  </data>
+  <data name="Options_Misc" xml:space="preserve">
+    <value>ATUALIZAÇÕES E PRIVACIDADE</value>
+  </data>
+  <data name="Options_OneLoud" xml:space="preserve">
+    <value>Um com janela por vez</value>
+  </data>
+  <data name="Options_OneLoud_Hint" xml:space="preserve">
+    <value>só um desinstalador com janela</value>
+  </data>
+  <data name="Options_OpenFolder" xml:space="preserve">
+    <value>Abrir no Explorer</value>
+  </data>
+  <data name="Options_Orphans" xml:space="preserve">
+    <value>Listar programas sem registro</value>
+  </data>
+  <data name="Options_Orphans_Hint" xml:space="preserve">
+    <value>achados no disco pela busca de pastas</value>
+  </data>
+  <data name="Options_PreventShutdown" xml:space="preserve">
+    <value>Bloquear desligamento</value>
+  </data>
+  <data name="Options_PreventShutdown_Hint" xml:space="preserve">
+    <value>enquanto uma tarefa roda</value>
+  </data>
+  <data name="Options_Protection" xml:space="preserve">
+    <value>Desligar proteção</value>
+  </data>
+  <data name="Options_Protection_Hint" xml:space="preserve">
+    <value>permite remover itens protegidos</value>
+  </data>
+  <data name="Options_Quiet" xml:space="preserve">
+    <value>DESINSTALAÇÃO SILENCIOSA</value>
+  </data>
+  <data name="Options_Ratings" xml:space="preserve">
+    <value>Avaliações</value>
+  </data>
+  <data name="Options_Ratings_Hint" xml:space="preserve">
+    <value>notas anônimas e compartilhadas dos programas</value>
+  </data>
+  <data name="Options_Removable" xml:space="preserve">
+    <value>Incluir discos removíveis</value>
+  </data>
+  <data name="Options_RemoveJunk" xml:space="preserve">
+    <value>Procurar restos</value>
+  </data>
+  <data name="Options_Reset" xml:space="preserve">
+    <value>Restaurar padrões</value>
+  </data>
+  <data name="Options_RestartForLanguage" xml:space="preserve">
+    <value>O idioma novo aparece depois de reiniciar.</value>
+  </data>
+  <data name="Options_RestartNow" xml:space="preserve">
+    <value>Reiniciar agora</value>
+  </data>
+  <data name="Options_RestorePoint" xml:space="preserve">
+    <value>Ponto de restauração</value>
+  </data>
+  <data name="Options_Retry" xml:space="preserve">
+    <value>Repetir falhas com janela</value>
+  </data>
+  <data name="Options_Retry_Hint" xml:space="preserve">
+    <value>uma vez, se o silencioso falhar</value>
+  </data>
+  <data name="Options_SavedHint" xml:space="preserve">
+    <value>salvo a cada mudança</value>
+  </data>
+  <data name="Options_ScanDrives" xml:space="preserve">
+    <value>Pastas de programas</value>
+  </data>
+  <data name="Options_ScanDrives_Hint" xml:space="preserve">
+    <value>acha programas que não estão registrados</value>
+  </data>
+  <data name="Options_ScanFeatures" xml:space="preserve">
+    <value>Recursos do Windows</value>
+  </data>
+  <data name="Options_ScanPreDefined" xml:space="preserve">
+    <value>Locais conhecidos</value>
+  </data>
+  <data name="Options_ScanPreDefined_Hint" xml:space="preserve">
+    <value>lista embutida de programas comuns</value>
+  </data>
+  <data name="Options_ScanRegistry" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Options_ScanRegistry_Hint" xml:space="preserve">
+    <value>o que o Windows lista como instalado</value>
+  </data>
+  <data name="Options_ScanStore" xml:space="preserve">
+    <value>Apps da Store</value>
+  </data>
+  <data name="Options_ScanUpdates" xml:space="preserve">
+    <value>Atualizações do Windows</value>
+  </data>
+  <data name="Options_ScanUpdates_Hint" xml:space="preserve">
+    <value>lento em alguns sistemas</value>
+  </data>
+  <data name="Options_SettingsFolder" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Options_ShowBadJunk" xml:space="preserve">
+    <value>Mostrar restos arriscados</value>
+  </data>
+  <data name="Options_ShowBadJunk_Hint" xml:space="preserve">
+    <value>itens de baixa confiança, desmarcados</value>
+  </data>
+  <data name="Options_Simulate" xml:space="preserve">
+    <value>Simular</value>
+  </data>
+  <data name="Options_Simulate_Hint" xml:space="preserve">
+    <value>faz todo o processo sem remover nada</value>
+  </data>
+  <data name="Options_Sorting" xml:space="preserve">
+    <value>Ordem inteligente</value>
+  </data>
+  <data name="Options_Sorting_Hint" xml:space="preserve">
+    <value>silenciosos primeiro, depois o resto</value>
+  </data>
+  <data name="Options_SourcesSummary" xml:space="preserve">
+    <value>{0} de {1} ligados</value>
+  </data>
+  <data name="Options_Statistics" xml:space="preserve">
+    <value>Enviar estatísticas</value>
+  </data>
+  <data name="Options_Statistics_Hint" xml:space="preserve">
+    <value>anônimas</value>
+  </data>
+  <data name="Options_TestInvalid" xml:space="preserve">
+    <value>Achar desinstaladores sumidos</value>
+  </data>
+  <data name="Options_TestInvalid_Hint" xml:space="preserve">
+    <value>itens que não conseguem mais desinstalar</value>
+  </data>
+  <data name="Options_Uninstallation" xml:space="preserve">
+    <value>DESINSTALAÇÃO</value>
+  </data>
+  <data name="Page_Apps" xml:space="preserve">
+    <value>Aplicativos</value>
+  </data>
+  <data name="Page_Options" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Search_Clear" xml:space="preserve">
+    <value>Limpar busca</value>
+  </data>
+  <data name="Search_Placeholder" xml:space="preserve">
+    <value>Buscar por nome, editora, pasta…</value>
+  </data>
+  <data name="Selection_Summary" xml:space="preserve">
+    <value>{0} selecionados · {1}</value>
+  </data>
+  <data name="Status_Feature" xml:space="preserve">
+    <value>Recurso do Windows</value>
+  </data>
+  <data name="Status_Invalid" xml:space="preserve">
+    <value>Sem desinstalador</value>
+  </data>
+  <data name="Status_Orphan" xml:space="preserve">
+    <value>Sem registro</value>
+  </data>
+  <data name="Status_Store" xml:space="preserve">
+    <value>App da Store</value>
+  </data>
+  <data name="Status_Unverified" xml:space="preserve">
+    <value>Certificado não verificado</value>
+  </data>
+  <data name="Status_Verified" xml:space="preserve">
+    <value>Certificado verificado</value>
+  </data>
+  <data name="Tag_Feature" xml:space="preserve">
+    <value>RECURSO</value>
+  </data>
+  <data name="Tag_Invalid" xml:space="preserve">
+    <value>SEM DESINSTALADOR</value>
+  </data>
+  <data name="Tag_Orphan" xml:space="preserve">
+    <value>SEM REGISTRO</value>
+  </data>
+  <data name="Tag_Protected" xml:space="preserve">
+    <value>PROTEGIDO</value>
+  </data>
+  <data name="Tag_Quiet" xml:space="preserve">
+    <value>SILENCIOSO</value>
+  </data>
+  <data name="Tag_Startup" xml:space="preserve">
+    <value>INICIALIZAÇÃO</value>
+  </data>
+  <data name="Tag_Store" xml:space="preserve">
+    <value>STORE</value>
+  </data>
+  <data name="Tag_System" xml:space="preserve">
+    <value>SISTEMA</value>
+  </data>
+  <data name="Tag_Update" xml:space="preserve">
+    <value>ATUALIZAÇÃO</value>
+  </data>
+  <data name="Tool_Clean" xml:space="preserve">
+    <value>Limpar Program Files</value>
+  </data>
+  <data name="Tool_Clean_Hint" xml:space="preserve">
+    <value>Procurar restos de programas que já foram removidos</value>
+  </data>
+  <data name="Tool_FromFolder" xml:space="preserve">
+    <value>Desinstalar por pasta</value>
+  </data>
+  <data name="Tool_FromFolder_Hint" xml:space="preserve">
+    <value>Escolha uma pasta e remova o que está instalado nela</value>
+  </data>
+  <data name="Tool_Restore" xml:space="preserve">
+    <value>Ponto de restauração</value>
+  </data>
+  <data name="Tool_Restore_Hint" xml:space="preserve">
+    <value>Criar um ponto de restauração agora</value>
+  </data>
+  <data name="Tool_Startup" xml:space="preserve">
+    <value>Inicialização</value>
+  </data>
+  <data name="Tool_Startup_Hint" xml:space="preserve">
+    <value>Ver e desativar o que inicia com o Windows</value>
+  </data>
+  <data name="Tool_Target" xml:space="preserve">
+    <value>Mirar numa janela</value>
+  </data>
+  <data name="Tool_Target_Hint" xml:space="preserve">
+    <value>Arraste a mira até uma janela pra desinstalar o programa dela</value>
+  </data>
+  <data name="View_Advanced" xml:space="preserve">
+    <value>Avançado</value>
+  </data>
+  <data name="View_Advanced_Hint" xml:space="preserve">
+    <value>O básico mais programas sem registro e ajustes</value>
+  </data>
+  <data name="View_Basic" xml:space="preserve">
+    <value>Básico</value>
+  </data>
+  <data name="View_Basic_Hint" xml:space="preserve">
+    <value>Programas comuns, sem Microsoft, sistema e atualizações</value>
+  </data>
+  <data name="View_Browsers" xml:space="preserve">
+    <value>Navegadores</value>
+  </data>
+  <data name="View_Browsers_Hint" xml:space="preserve">
+    <value>Só navegadores</value>
+  </data>
+  <data name="View_Clear" xml:space="preserve">
+    <value>Mostrar a lista toda</value>
+  </data>
+  <data name="View_Everything" xml:space="preserve">
+    <value>Tudo</value>
+  </data>
+  <data name="View_Everything_Hint" xml:space="preserve">
+    <value>Tudo o que foi encontrado</value>
+  </data>
+  <data name="View_Invalid" xml:space="preserve">
+    <value>Sem desinstalador</value>
+  </data>
+  <data name="View_Invalid_Hint" xml:space="preserve">
+    <value>Itens cujo desinstalador sumiu</value>
+  </data>
+  <data name="View_Orphans" xml:space="preserve">
+    <value>Sem registro</value>
+  </data>
+  <data name="View_Orphans_Hint" xml:space="preserve">
+    <value>Programas achados no disco que não estão registrados</value>
+  </data>
+  <data name="View_Startup" xml:space="preserve">
+    <value>Inicia com o Windows</value>
+  </data>
+  <data name="View_Startup_Hint" xml:space="preserve">
+    <value>Programas com entradas de inicialização</value>
+  </data>
+  <data name="View_StoreApps" xml:space="preserve">
+    <value>Apps da Store</value>
+  </data>
+  <data name="View_StoreApps_Hint" xml:space="preserve">
+    <value>Apps da Microsoft Store</value>
+  </data>
+  <data name="View_SystemComponents" xml:space="preserve">
+    <value>Do sistema</value>
+  </data>
+  <data name="View_SystemComponents_Hint" xml:space="preserve">
+    <value>Itens marcados como componente do sistema</value>
+  </data>
+  <data name="View_Tweaks" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="View_Tweaks_Hint" xml:space="preserve">
+    <value>Scripts de ajuste que vêm com o BCU</value>
+  </data>
+  <data name="View_Updates" xml:space="preserve">
+    <value>Atualizações</value>
+  </data>
+  <data name="View_Updates_Hint" xml:space="preserve">
+    <value>Atualizações instaladas do Windows e de programas</value>
+  </data>
+</root>

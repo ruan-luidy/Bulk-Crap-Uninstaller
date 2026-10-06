@@ -1,0 +1,530 @@
+<UserControl
+  x:Class="BulkCrapUninstaller.Wpf.Features.Options.OptionsView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:controls="clr-namespace:BulkCrapUninstaller.Wpf.Shared.Controls"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:hc="https://handyorg.github.io/handycontrol"
+  xmlns:icons="clr-namespace:BulkCrapUninstaller.Wpf.Shared.Icons"
+  xmlns:loc="clr-namespace:BulkCrapUninstaller.Wpf.Shared"
+  xmlns:local="clr-namespace:BulkCrapUninstaller.Wpf.Features.Options"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  x:Name="Root"
+  d:DataContext="{d:DesignInstance Type=local:OptionsViewModel}"
+  d:DesignHeight="900"
+  d:DesignWidth="1100"
+  mc:Ignorable="d">
+
+  <UserControl.Resources>
+    <Style
+      x:Key="Choices"
+      BasedOn="{StaticResource ComboBoxField}"
+      TargetType="ComboBox">
+      <Setter Property="DisplayMemberPath" Value="Name" />
+      <Setter Property="SelectedValuePath" Value="Value" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style
+      x:Key="MultiLine"
+      BasedOn="{StaticResource TextBox.Small}"
+      TargetType="TextBox">
+      <Setter Property="Height" Value="Auto" />
+      <Setter Property="MinHeight" Value="64" />
+      <Setter Property="Padding" Value="8,6" />
+      <Setter Property="AcceptsReturn" Value="True" />
+      <Setter Property="TextWrapping" Value="NoWrap" />
+      <Setter Property="VerticalContentAlignment" Value="Top" />
+      <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+      <Setter Property="FontFamily" Value="{StaticResource Font.Mono}" />
+      <Setter Property="FontSize" Value="{StaticResource FontSize.XS}" />
+    </Style>
+  </UserControl.Resources>
+
+  <DockPanel>
+    <ContentControl
+      Content="{loc:Tr Page_Options}"
+      DockPanel.Dock="Top"
+      Style="{StaticResource PageTitle}"
+      Tag="{loc:Tr Options_SavedHint}" />
+
+    <!--  Language changes need a restart  -->
+    <Border
+      Margin="0,12,0,0"
+      Padding="12,8"
+      Background="{DynamicResource Accent.SoftBrush}"
+      CornerRadius="{StaticResource Radius.Md}"
+      DockPanel.Dock="Top"
+      Visibility="{Binding LanguageChanged, Converter={StaticResource Boolean2VisibilityConverter}}">
+      <DockPanel>
+        <Button
+          Command="{Binding RestartNowCommand}"
+          Content="{loc:Tr Options_RestartNow}"
+          DockPanel.Dock="Right"
+          Style="{StaticResource ButtonPrimary.Small}" />
+        <Path
+          Margin="0,0,10,0"
+          Data="{icons:Phosphor TranslateBold}"
+          Fill="{DynamicResource PrimaryBrush}"
+          Style="{StaticResource Icon}" />
+        <TextBlock
+          VerticalAlignment="Center"
+          Style="{StaticResource TextBlockDefault}"
+          Text="{loc:Tr Options_RestartForLanguage}" />
+      </DockPanel>
+    </Border>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <controls:MasonryPanel Margin="0,14,0,24" Style="{StaticResource OptionPages}">
+
+        <!--  ===== APPEARANCE  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Appearance}" Icon="{icons:Phosphor PaletteBold}">
+          <StackPanel>
+            <controls:OptionRow Label="{loc:Tr Options_DarkTheme}" LabelWidth="110">
+              <ToggleButton IsChecked="{Binding DarkTheme}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_Accent}" LabelWidth="110">
+              <ItemsControl Focusable="False" ItemsSource="{Binding Accents}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="{x:Type local:AccentChoice}">
+                    <Button
+                      Margin="0,4,6,4"
+                      Background="{Binding Color}"
+                      Command="{Binding DataContext.PickAccentCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                      CommandParameter="{Binding Color}"
+                      Style="{StaticResource Swatch}"
+                      Tag="{Binding IsSelected}"
+                      ToolTip="{Binding Color}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Language_Hint}"
+              Label="{loc:Tr Options_Language}"
+              LabelWidth="110">
+              <ComboBox
+                ItemsSource="{Binding Languages}"
+                SelectedValue="{Binding S[Language]}"
+                Style="{StaticResource Choices}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== LIST  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_List}" Icon="{icons:Phosphor ListBulletsBold}">
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Checkboxes_Hint}"
+              Label="{loc:Tr Options_Checkboxes}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[UninstallerListUseCheckboxes]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Highlight_Hint}"
+              Label="{loc:Tr Options_Highlight}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedHighlightSpecial]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Colorblind_Hint}"
+              Label="{loc:Tr Options_Colorblind}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MiscColorblind]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_DoubleClick}" LabelWidth="150">
+              <ComboBox
+                ItemsSource="{Binding DoubleClickChoices}"
+                SelectedValue="{Binding S[UninstallerListDoubleClickAction]}"
+                Style="{StaticResource Choices}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_DefaultList_Hint}"
+              Label="{loc:Tr Options_DefaultList}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MiscAutoLoadDefaultList]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== DETECTION  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Detection}" Icon="{icons:Phosphor MagnifyingGlassBold}">
+          <controls:OptionPanel.Aside>
+            <TextBlock
+              FontFamily="{StaticResource Font.Mono}"
+              FontSize="{StaticResource FontSize.XS}"
+              Foreground="{DynamicResource ThirdlyTextBrush}"
+              Text="{Binding SourcesSummary}" />
+          </controls:OptionPanel.Aside>
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_ScanRegistry_Hint}"
+              Label="{loc:Tr Options_ScanRegistry}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanRegistry]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_ScanDrives_Hint}"
+              Label="{loc:Tr Options_ScanDrives}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanDrives]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_ScanPreDefined_Hint}"
+              Label="{loc:Tr Options_ScanPreDefined}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanPreDefined]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <Border Style="{StaticResource PanelDivider}" />
+            <controls:OptionRow Label="{loc:Tr Options_ScanStore}" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanStoreApps]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_ScanFeatures}" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanWinFeatures]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_ScanUpdates_Hint}"
+              Label="{loc:Tr Options_ScanUpdates}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanWinUpdates]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <Border Style="{StaticResource PanelDivider}" />
+            <controls:OptionRow Label="Steam" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanSteam]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="Chocolatey" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanChocolatey]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="Scoop" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanScoop]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="Oculus" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ScanOculus]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <TextBlock Style="{StaticResource PanelNote}" Text="{loc:Tr Options_Detection_Note}" />
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== CHECKS  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Checks}" Icon="{icons:Phosphor SealCheckBold}">
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Certificates_Hint}"
+              Label="{loc:Tr Options_Certificates}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedTestCertificates]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_TestInvalid_Hint}"
+              Label="{loc:Tr Options_TestInvalid}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedTestInvalid]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Orphans_Hint}"
+              Label="{loc:Tr Options_Orphans}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedDisplayOrphans]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <Border Style="{StaticResource PanelDivider}" />
+            <controls:OptionRow Label="{loc:Tr Options_CacheCertificates}" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[CacheCertificates]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_CacheAppInfo_Hint}"
+              Label="{loc:Tr Options_CacheAppInfo}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[CacheAppInfo]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== UNINSTALLATION  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Uninstallation}" Icon="{icons:Phosphor TrashBold}">
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Concurrent_Hint}"
+              Label="{loc:Tr Options_Concurrent}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[UninstallConcurrency]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              IsEnabled="{Binding S[UninstallConcurrency]}"
+              Label="{loc:Tr Options_MaxConcurrent}"
+              LabelWidth="150">
+              <DockPanel>
+                <TextBox
+                  DockPanel.Dock="Right"
+                  Style="{StaticResource SliderValue}"
+                  Text="{Binding S[UninstallConcurrentMaxCount], UpdateSourceTrigger=PropertyChanged}" />
+                <Slider
+                  Maximum="10"
+                  Minimum="2"
+                  Style="{StaticResource OptionSlider}"
+                  TickFrequency="1"
+                  Value="{Binding S[UninstallConcurrentMaxCount]}" />
+              </DockPanel>
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_OneLoud_Hint}"
+              IsEnabled="{Binding S[UninstallConcurrency]}"
+              Label="{loc:Tr Options_OneLoud}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[UninstallConcurrentOneLoud]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Collision_Hint}"
+              IsEnabled="{Binding S[UninstallConcurrency]}"
+              Label="{loc:Tr Options_Collision}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[UninstallConcurrentDisableManualCollisionProtection]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <Border Style="{StaticResource PanelDivider}" />
+            <controls:OptionRow
+              Caption="{loc:Tr Options_PreventShutdown_Hint}"
+              Label="{loc:Tr Options_PreventShutdown}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[UninstallPreventShutdown]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Sorting_Hint}"
+              Label="{loc:Tr Options_Sorting}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedIntelligentUninstallerSorting]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_AskLoud_Hint}"
+              Label="{loc:Tr Options_AskLoud}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MessagesAskRemoveLoudItems]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== QUIET  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Quiet}" Icon="{icons:Phosphor RobotBold}">
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Automatize_Hint}"
+              Label="{loc:Tr Options_Automatize}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[QuietAutomatization]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              IsEnabled="{Binding S[QuietAutomatization]}"
+              Label="{loc:Tr Options_AutomatizeKill}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[QuietAutomatizationKillStuck]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Daemon_Hint}"
+              IsEnabled="{Binding S[QuietAutomatization]}"
+              Label="{loc:Tr Options_Daemon}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[QuietUseDaemon]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <Border Style="{StaticResource PanelDivider}" />
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Retry_Hint}"
+              Label="{loc:Tr Options_Retry}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[QuietRetryFailedOnce]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_KillStuck_Hint}"
+              Label="{loc:Tr Options_KillStuck}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[QuietAutoKillStuck]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== LEFTOVERS AND SAFETY  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Leftovers}" Icon="{icons:Phosphor BroomBold}">
+          <StackPanel>
+            <controls:OptionRow Label="{loc:Tr Options_RemoveJunk}" LabelWidth="150">
+              <ComboBox
+                ItemsSource="{Binding YesNoAskChoices}"
+                SelectedValue="{Binding S[MessagesRemoveJunk]}"
+                Style="{StaticResource Choices}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_RestorePoint}" LabelWidth="150">
+              <ComboBox
+                ItemsSource="{Binding YesNoAskChoices}"
+                SelectedValue="{Binding S[MessagesRestorePoints]}"
+                Style="{StaticResource Choices}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_BackupLeftovers}" LabelWidth="150">
+              <ComboBox
+                ItemsSource="{Binding YesNoAskChoices}"
+                SelectedValue="{Binding S[BackupLeftovers]}"
+                Style="{StaticResource Choices}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_BackupFolder}" LabelWidth="150">
+              <DockPanel>
+                <Button
+                  Margin="4,0,0,0"
+                  Command="{Binding BrowseBackupFolderCommand}"
+                  DockPanel.Dock="Right"
+                  Style="{StaticResource IconButton}"
+                  ToolTip="{loc:Tr Options_Browse}">
+                  <Path Data="{icons:Phosphor FolderOpenBold}" Style="{StaticResource Icon}" />
+                </Button>
+                <TextBox
+                  hc:InfoElement.Placeholder="{loc:Tr Options_BackupFolder_Placeholder}"
+                  Style="{StaticResource TextBox.Small}"
+                  Text="{Binding S[BackupLeftoversDirectory]}" />
+              </DockPanel>
+            </controls:OptionRow>
+            <Border Style="{StaticResource PanelDivider}" />
+            <controls:OptionRow
+              Caption="{loc:Tr Options_ShowBadJunk_Hint}"
+              Label="{loc:Tr Options_ShowBadJunk}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MessagesShowAllBadJunk]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Protection_Hint}"
+              Label="{loc:Tr Options_Protection}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedDisableProtection]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== FOLDERS  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Folders}" Icon="{icons:Phosphor FoldersBold}">
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_AutoDetect_Hint}"
+              Label="{loc:Tr Options_AutoDetect}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[FoldersAutoDetect]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow Label="{loc:Tr Options_Removable}" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[FoldersScanRemovable]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Options_CustomFolders}" />
+            <TextBox
+              hc:InfoElement.Placeholder="D:\Games&#x0a;E:\Portable"
+              Style="{StaticResource MultiLine}"
+              Text="{Binding S[FoldersCustomProgramDirs]}" />
+            <TextBlock Style="{StaticResource PanelNote}" Text="{loc:Tr Options_CustomFolders_Note}" />
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== EXTERNAL COMMANDS  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_External}" Icon="{icons:Phosphor TerminalWindowBold}">
+          <StackPanel>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_External_Hint}"
+              Label="{loc:Tr Options_ExternalEnable}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[ExternalEnable]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <StackPanel IsEnabled="{Binding S[ExternalEnable]}">
+              <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Options_ExternalBefore}" />
+              <TextBox Style="{StaticResource MultiLine}" Text="{Binding S[ExternalPreCommands]}" />
+              <TextBlock Style="{StaticResource DetailLabel}" Text="{loc:Tr Options_ExternalAfter}" />
+              <TextBox Style="{StaticResource MultiLine}" Text="{Binding S[ExternalPostCommands]}" />
+            </StackPanel>
+            <TextBlock Style="{StaticResource PanelNote}" Text="{loc:Tr Options_External_Note}" />
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== PRIVACY AND UPDATES  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Misc}" Icon="{icons:Phosphor GlobeBold}">
+          <StackPanel>
+            <controls:OptionRow Label="{loc:Tr Options_CheckUpdates}" LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MiscCheckForUpdates]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Ratings_Hint}"
+              Label="{loc:Tr Options_Ratings}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MiscUserRatings]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Statistics_Hint}"
+              Label="{loc:Tr Options_Statistics}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[MiscSendStatistics]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+            <controls:OptionRow
+              Caption="{loc:Tr Options_Simulate_Hint}"
+              Label="{loc:Tr Options_Simulate}"
+              LabelWidth="230">
+              <ToggleButton IsChecked="{Binding S[AdvancedSimulate]}" Style="{StaticResource OptionSwitch}" />
+            </controls:OptionRow>
+          </StackPanel>
+        </controls:OptionPanel>
+
+        <!--  ===== MAINTENANCE  =====  -->
+        <controls:OptionPanel Header="{loc:Tr Options_Maintenance}" Icon="{icons:Phosphor WrenchBold}">
+          <StackPanel>
+            <DockPanel Margin="0,0,0,10">
+              <Border Margin="0,0,12,0" Style="{StaticResource IconBadge}">
+                <Image Margin="4" Source="pack://application:,,,/BCUninstaller.Wpf;component/Assets/logo.ico" />
+              </Border>
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock
+                  FontWeight="SemiBold"
+                  Style="{StaticResource TextBlockDefault}"
+                  Text="{Binding Version}" />
+                <TextBlock Style="{StaticResource TextBlockCaption}" Text="{loc:Tr Options_About_Line}" />
+              </StackPanel>
+            </DockPanel>
+            <controls:OptionRow Label="{loc:Tr Options_SettingsFolder}" LabelWidth="110">
+              <DockPanel>
+                <Button
+                  Margin="4,0,0,0"
+                  Command="{Binding OpenSettingsFolderCommand}"
+                  DockPanel.Dock="Right"
+                  Style="{StaticResource IconButton}"
+                  ToolTip="{loc:Tr Options_OpenFolder}">
+                  <Path Data="{icons:Phosphor ArrowSquareOutBold}" Style="{StaticResource Icon}" />
+                </Button>
+                <TextBox Style="{StaticResource PathField}" Text="{Binding SettingsFolder, Mode=OneWay}" />
+              </DockPanel>
+            </controls:OptionRow>
+            <WrapPanel Margin="0,8,0,0">
+              <Button
+                Margin="0,0,8,8"
+                Command="{Binding SetupWizardCommand}"
+                Style="{StaticResource ButtonDefault.Small}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor MagicWandBold}" Style="{StaticResource Icon.Small}" />
+                  <TextBlock Margin="6,0,0,0" Text="{loc:Tr Menu_SetupWizard}" />
+                </StackPanel>
+              </Button>
+              <Button
+                Margin="0,0,8,8"
+                Command="{Binding ClearCachesCommand}"
+                Style="{StaticResource ButtonDefault.Small}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor EraserBold}" Style="{StaticResource Icon.Small}" />
+                  <TextBlock Margin="6,0,0,0" Text="{loc:Tr Options_ClearCaches}" />
+                </StackPanel>
+              </Button>
+              <Button
+                Margin="0,0,8,8"
+                Command="{Binding ResetSettingsCommand}"
+                Style="{StaticResource ButtonDanger.Small}">
+                <StackPanel Orientation="Horizontal">
+                  <Path Data="{icons:Phosphor ArrowCounterClockwiseBold}" Style="{StaticResource Icon.Small}" />
+                  <TextBlock Margin="6,0,0,0" Text="{loc:Tr Options_Reset}" />
+                </StackPanel>
+              </Button>
+            </WrapPanel>
+          </StackPanel>
+        </controls:OptionPanel>
+
+      </controls:MasonryPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

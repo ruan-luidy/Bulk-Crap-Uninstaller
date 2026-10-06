@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<AssemblyName>BCUninstaller.Wpf</AssemblyName>
+		<RootNamespace>BulkCrapUninstaller.Wpf</RootNamespace>
+
+		<Product>Bulk Crap Uninstaller</Product>
+		<AssemblyTitle>Remove large amounts of unwanted applications quickly</AssemblyTitle>
+
+		<UseWPF>true</UseWPF>
+		<Nullable>disable</Nullable>
+		<ApplicationIcon>..\BulkCrapUninstaller\Resources\logo.ico</ApplicationIcon>
+		<!-- Own Main so NBug, logging and settings are ready before WPF starts -->
+		<StartupObject>BulkCrapUninstaller.Wpf.EntryPoint</StartupObject>
+		<!-- Runs on newer runtimes when only those are installed -->
+		<RollForward>Major</RollForward>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="HandyControls" Version="3.6.0" />
+		<PackageReference Include="MahApps.Metro.IconPacks.Core" Version="6.2.1" />
+		<PackageReference Include="MahApps.Metro.IconPacks.PhosphorIcons" Version="6.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BulkCrapUninstaller\BulkCrapUninstaller.csproj" />
+		<ProjectReference Include="..\KlocTools\KlocTools.csproj" />
+		<ProjectReference Include="..\UninstallTools\UninstallTools.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="..\BulkCrapUninstaller\Resources\logo.ico" Link="Assets\logo.ico" />
+	</ItemGroup>
+</Project>

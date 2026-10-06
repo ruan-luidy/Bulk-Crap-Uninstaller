@@ -1,0 +1,31 @@
+<Application
+  x:Class="BulkCrapUninstaller.Wpf.App"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:apps="clr-namespace:BulkCrapUninstaller.Wpf.Features.Apps"
+  xmlns:hc="https://handyorg.github.io/handycontrol"
+  xmlns:options="clr-namespace:BulkCrapUninstaller.Wpf.Features.Options"
+  ShutdownMode="OnMainWindowClose">
+
+  <!--  No StartupUri: EntryPoint prepares settings and culture, OnStartup opens the window  -->
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!--  ThemeService swaps theme and accent  -->
+        <hc:ThemeResources AccentColor="#3778bf" RequestedTheme="Dark" />
+        <hc:Theme />
+        <ResourceDictionary Source="/Shared/Themes/Styles.xaml" />
+        <ResourceDictionary Source="/Shared/Themes/Options.xaml" />
+        <ResourceDictionary Source="/Shared/Themes/Apps.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!--  Page view model → view  -->
+      <DataTemplate DataType="{x:Type apps:AppsViewModel}">
+        <apps:AppsView />
+      </DataTemplate>
+      <DataTemplate DataType="{x:Type options:OptionsViewModel}">
+        <options:OptionsView />
+      </DataTemplate>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

@@ -59,6 +59,7 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="BulkCrapUninstallerTests" />
+		<InternalsVisibleTo Include="BCUninstaller.Wpf" />
 	</ItemGroup>
 
 	<ItemGroup>
