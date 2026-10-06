@@ -285,6 +285,16 @@ namespace UninstallTools.Factory
             public string[][] Shortcuts { get; set; }
         }
 
+        // The installed architecture is not always present in the manifest (e.g. extras/flutter only lists arm64),
+        // in that case scoop falls back to the top-level fields and so should we
+        private static AppManifestArchitecture GetArchitectureSpecificSettings(AppManifest manifest, AppInstall install)
+        {
+            if (manifest?.Architecture == null || string.IsNullOrEmpty(install?.Architecture))
+                return null;
+
+            return manifest.Architecture.TryGetValue(install.Architecture, out var arch) ? arch : null;
+        }
+
         public static ApplicationUninstallerEntry CreateUninstallerEntry(
             string name,
             string version,
@@ -316,7 +326,9 @@ namespace UninstallTools.Factory
 
                     entry.AboutUrl = manifest.Homepage;
 
-                    var shortcuts = manifest.Architecture?[install.Architecture]?.Shortcuts ?? manifest.Shortcuts;
+                    var arch = GetArchitectureSpecificSettings(manifest, install);
+
+                    var shortcuts = arch?.Shortcuts ?? manifest.Shortcuts;
                     if (shortcuts != null)
                     {
                         var files = shortcuts.Select(x => Path.Combine(currentDir, x[0]))
@@ -344,7 +356,7 @@ namespace UninstallTools.Factory
                         }
                     }
 
-                    var bin = manifest.Architecture?[install.Architecture]?.Bin ?? manifest.Bin;
+                    var bin = arch?.Bin ?? manifest.Bin;
                     if (bin != null)
                     {
                         var filteredBins = bin.Select(x => Path.Combine(installDir, "current", x))
@@ -356,7 +368,7 @@ namespace UninstallTools.Factory
                         executables.AddRange(filteredBins);
                     }
 
-                    var env = manifest.Architecture?[install.Architecture]?.EnvAddPath ?? manifest.EnvAddPath;
+                    var env = arch?.EnvAddPath ?? manifest.EnvAddPath;
                     if (env is { Length: > 0 })
                     {
                         currentDir = Path.Combine(currentDir, env[0]);
